@@ -786,6 +786,38 @@ html, body { max-width:100%; overflow-x:hidden; }
     -webkit-overflow-scrolling:touch;
   }
 }
+
+/* FINAL OVERRIDE: force 8 nav items into 2 rows of 4 on phones */
+@media only screen and (max-width: 700px) {
+  body main.wrap nav#lotusMainNav,
+  body main.wrap > nav {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-rows: auto auto !important;
+    grid-auto-flow: row !important;
+    width: 100% !important;
+    gap: 7px !important;
+    overflow: visible !important;
+  }
+  body main.wrap nav#lotusMainNav > button,
+  body main.wrap > nav > button {
+    display: flex !important;
+    grid-column: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 8px 3px !important;
+    font-size: 12px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="LOTUS">
@@ -818,7 +850,7 @@ html, body { max-width:100%; overflow-x:hidden; }
 </g>
 </svg><div class="brandcopy"><div class="brand">LOTUS</div></div></div><div class="topline"><span id="syncStatus" class="status">Chưa đồng bộ</span><button id="syncBtn" onclick="syncData()">↻ Cập nhật dữ liệu</button></div></header>
 <main class="wrap">
-<nav>
+<nav id="lotusMainNav">
 <button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất</button><button data-tab="gan">Số gan</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử</button><button data-tab="calendar">Hoàng đạo</button><button data-tab="filter">Lọc số</button><button data-tab="prediction">Dự đoán</button>
 </nav>
 <section id="tab-home">
@@ -1229,4 +1261,35 @@ document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()
 initLunarCalendar();load();render();if(!draws.length)syncData();else{$('syncStatus').textContent='Đã tải dữ liệu đã lưu · '+draws.length+' kỳ';ensureTomorrowPrediction()}setInterval(syncData,15*60*1000);
 function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(!p?.groups?.four||!p?.groups?.three||!p?.groups?.de||(!p?.groups?.firstPrize||String(p.groups.firstPrize).length!==2))makePrediction()}
 
+</script><script>
+(function(){
+ function enforceLotusMobileMenu(){
+   const nav=document.getElementById('lotusMainNav');
+   if(!nav) return;
+   const mobile=window.matchMedia('(max-width: 700px)').matches;
+   nav.style.setProperty('display','grid','important');
+   nav.style.setProperty('grid-template-columns',mobile?'repeat(4,minmax(0,1fr))':'repeat(8,minmax(0,1fr))','important');
+   nav.style.setProperty('grid-auto-flow','row','important');
+   nav.style.setProperty('width','100%','important');
+   nav.style.setProperty('gap',mobile?'7px':'10px','important');
+   nav.querySelectorAll('button').forEach(btn=>{
+     btn.style.setProperty('grid-column','auto','important');
+     btn.style.setProperty('width','100%','important');
+     btn.style.setProperty('min-width','0','important');
+     btn.style.setProperty('max-width','100%','important');
+     btn.style.setProperty('min-height',mobile?'48px':'54px','important');
+     btn.style.setProperty('height','auto','important');
+     btn.style.setProperty('margin','0','important');
+     btn.style.setProperty('white-space','normal','important');
+     btn.style.setProperty('font-size',mobile?'12px':'14px','important');
+     btn.style.setProperty('padding',mobile?'8px 3px':'8px 6px','important');
+     btn.style.setProperty('display','flex','important');
+     btn.style.setProperty('justify-content','center','important');
+     btn.style.setProperty('align-items','center','important');
+   });
+ }
+ document.addEventListener('DOMContentLoaded',enforceLotusMobileMenu);
+ window.addEventListener('resize',enforceLotusMobileMenu);
+ enforceLotusMobileMenu();
+})();
 </script></body></html>
