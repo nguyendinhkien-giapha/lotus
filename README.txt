@@ -1,9 +1,13 @@
-LOTUS V1.29 – MOBILE APP
-- Đã đặt CSS mobile override ở cuối stylesheet để không bị CSS cũ ghi đè.
-- Menu chuyển thành thanh điều hướng cố định dưới màn hình, vuốt ngang để truy cập đủ 7 chức năng.
-- Header gọn, giữ trạng thái đồng bộ và nút cập nhật.
-- Thẻ thống kê, biểu mẫu và các khối nội dung xếp một cột.
-- Bảng lịch sử/đối chiếu cuộn ngang bên trong khung.
-- Bảng kết quả xổ số, lịch và bộ số được tối ưu riêng.
-- Giữ nguyên JavaScript, dữ liệu và thuật toán của V1.27.
-Cách dùng: giải nén, mở LOTUS_V1.29/index.html hoặc đưa toàn bộ nội dung lên hosting đang sử dụng.
+LOTUS V1.30 – SỬA RIÊNG MENU ĐIỆN THOẠI
+
+Theo ảnh iPhone người dùng gửi:
+- Menu 7 mục chuyển từ 2 cột sang 3 cột.
+- Mỗi nút đồng đều, thấp gọn khoảng 54–58px.
+- Mục thứ 7 nằm giữa hàng cuối, không bị lẻ bên trái.
+- Giữ menu trong luồng trang, không ghim xuống đáy màn hình.
+- Giữ nguyên menu PC, dữ liệu, JavaScript và thuật toán dự đoán.
+
+Cập nhật:
+1. Giải nén ZIP.
+2. Đưa thư mục LOTUS_V1.30 lên GitHub Pages/hosting (thay index.html cũ).
+3. Nếu vẫn thấy bản cũ trên iPhone, tải lại trang hoặc xóa cache trình duyệt.
