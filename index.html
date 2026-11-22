@@ -704,17 +704,36 @@ nav button{
 }
 
 </style>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta name="apple-mobile-web-app-title" content="LOTUS">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+<meta name="apple-mobile-web-app-title" content="LOTUS">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 </head>
 <body>
-<header><div class="brandlock"><img class="lotus-mark" src="lotus-app-icon.png" alt="Biểu tượng hoa sen LOTUS"><div class="brandcopy"><div class="brand">LOTUS</div></div></div><div class="topline"><span id="syncStatus" class="status">Chưa đồng bộ</span><button id="syncBtn" onclick="syncData()">↻ Cập nhật dữ liệu</button></div></header>
+<header><div class="brandlock"><svg class="lotus-mark" viewBox="0 0 160 130" role="img" aria-label="Biểu tượng hoa sen LOTUS" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="lotusGold" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#fff0b5"/><stop offset=".48" stop-color="#dfbd68"/><stop offset="1" stop-color="#a97828"/>
+ </linearGradient>
+</defs>
+<g fill="none" stroke="url(#lotusGold)" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+ <!-- outer side petals -->
+ <path d="M80 104 C48 104 22 88 9 62 C34 58 58 70 80 104Z"/>
+ <path d="M80 104 C112 104 138 88 151 62 C126 58 102 70 80 104Z"/>
+ <!-- lower layered petals -->
+ <path d="M80 108 C54 111 38 101 29 88 C51 81 68 88 80 108Z"/>
+ <path d="M80 108 C106 111 122 101 131 88 C109 81 92 88 80 108Z"/>
+ <!-- middle petals -->
+ <path d="M80 104 C43 91 34 66 43 39 C65 49 77 71 80 104Z"/>
+ <path d="M80 104 C117 91 126 66 117 39 C95 49 83 71 80 104Z"/>
+ <!-- tall central petals -->
+ <path d="M80 104 C48 77 52 42 80 8 C108 42 112 77 80 104Z"/>
+ <path d="M80 104 C63 78 66 48 80 25 C94 48 97 78 80 104Z" opacity=".82"/>
+ <!-- base -->
+ <path d="M25 112 C53 121 107 121 135 112"/>
+ <path d="M42 117 C62 123 98 123 118 117" opacity=".7"/>
+</g>
+</svg><div class="brandcopy"><div class="brand">LOTUS</div></div></div><div class="topline"><span id="syncStatus" class="status">Chưa đồng bộ</span><button id="syncBtn" onclick="syncData()">↻ Cập nhật dữ liệu</button></div></header>
 <main class="wrap">
 <nav>
 <button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất</button><button data-tab="gan">Số gan</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử</button><button data-tab="calendar">Hoàng đạo</button><button data-tab="prediction">Dự đoán</button>
