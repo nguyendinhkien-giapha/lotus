@@ -148,7 +148,7 @@ footer{color:#b6c9b4}
 .calendar-tools input{min-width:170px}
 .calendar-legend{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .calendar-legend .pill{display:inline-flex;align-items:center;gap:6px}
-.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.daygrid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px}
 .dayhead{text-align:center;color:#e8d39a;font-weight:700;padding:8px 2px;background:rgba(27,83,59,.7);border:1px solid rgba(220,187,112,.22);border-radius:8px}
 .daycell{min-height:92px;padding:8px 6px;border:1px solid rgba(220,187,112,.25);border-radius:10px;background:linear-gradient(145deg,rgba(36,94,65,.72),rgba(10,48,34,.82));cursor:pointer;text-align:left;color:var(--txt)}
 .daycell:hover,.daycell.selected{outline:2px solid #e2c274;outline-offset:1px}
@@ -170,7 +170,7 @@ footer{color:#b6c9b4}
 /* V1.16 – cân đối thanh menu */
 nav{
  display:grid !important;
- grid-template-columns:repeat(7,minmax(0,1fr));
+ grid-template-columns:repeat(8,minmax(0,1fr));
  gap:10px;
  width:100%;
  align-items:stretch;
@@ -703,6 +703,33 @@ nav button{
   #tab-home > .grid:first-of-type > .card .metric { font-size: 23px !important; }
 }
 
+
+/* LOTUS V1.33 – 8 menu cùng hàng trên PC, 4 cột x 2 hàng trên điện thoại */
+nav{
+ display:grid !important;
+ grid-template-columns:repeat(8,minmax(0,1fr)) !important;
+ gap:10px !important;
+ width:100% !important;
+ align-items:stretch !important;
+ overflow:visible !important;
+}
+nav button{
+ width:100% !important;
+ min-width:0 !important;
+ min-height:54px !important;
+ height:54px !important;
+ padding:8px 6px !important;
+ white-space:normal !important;
+ overflow-wrap:anywhere;
+ text-align:center !important;
+}
+@media(max-width:1050px){
+ nav{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}
+}
+@media(max-width:600px){
+ nav{grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:7px !important;}
+ nav button{min-height:48px !important;height:auto !important;padding:8px 4px !important;font-size:12px !important;line-height:1.2 !important;}
+}
 </style>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="LOTUS">
@@ -736,7 +763,7 @@ nav button{
 </svg><div class="brandcopy"><div class="brand">LOTUS</div></div></div><div class="topline"><span id="syncStatus" class="status">Chưa đồng bộ</span><button id="syncBtn" onclick="syncData()">↻ Cập nhật dữ liệu</button></div></header>
 <main class="wrap">
 <nav>
-<button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất</button><button data-tab="gan">Số gan</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử</button><button data-tab="calendar">Hoàng đạo</button><button data-tab="prediction">Dự đoán</button>
+<button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất</button><button data-tab="gan">Số gan</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử</button><button data-tab="calendar">Hoàng đạo</button><button data-tab="filter">Lọc số</button><button data-tab="prediction">Dự đoán</button>
 </nav>
 <section id="tab-home">
 <div class="grid">
@@ -792,10 +819,11 @@ nav button{
 <div class="card section">
  <div class="row"><h2>Dự đoán</h2><span class="push pill" id="predictionDate"></span></div>
  <p class="muted">Phân tích dữ liệu lịch sử để tạo các nhóm 4 càng đề, 3 càng đề, đề và xiên 1–4. Đây là thống kê tham khảo, không bảo đảm kết quả.</p>
- <div class="grid section" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+ <div class="grid section" style="grid-template-columns:repeat(4,minmax(0,1fr))">
   <div class="card"><h2>4 càng đề</h2><div id="pred4" class="metric">—</div><small class="muted">4 chữ số cuối giải đặc biệt</small></div>
   <div class="card"><h2>3 càng đề</h2><div id="pred3" class="metric">—</div><small class="muted">3 chữ số cuối giải đặc biệt</small></div>
   <div class="card"><h2>Đề</h2><div id="predDe" class="metric">—</div><small class="muted">2 chữ số cuối giải đặc biệt</small></div>
+  <div class="card"><h2>Nhất to</h2><div id="predFirst" class="metric">—</div><small class="muted">2 chữ số cuối giải nhất</small></div>
  </div>
  <div class="card section"><h2>Các bộ xiên</h2><div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
   <div class="numcell"><b id="predX1">—</b><small>Xiên 1</small></div>
@@ -816,6 +844,20 @@ nav button{
  <div class="card"><div class="muted">Tỷ lệ chung</div><div class="metric" id="rateAll">—</div><small class="muted" id="rateAllDetail">Trên các dự đoán đã có kết quả</small></div>
 </div>
 <div class="card section"><h2>Phân tích trúng – đối chiếu dự đoán với kết quả thực tế</h2><p class="muted">Chỉ tính tỷ lệ trên những ngày đã có kết quả xổ số. 4 càng, 3 càng và Đề được so với đuôi giải đặc biệt; tỷ lệ là thống kê quá khứ, không phải xác suất kỳ tiếp theo.</p><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Dự đoán 4 càng</th><th>KQ 4 càng</th><th>Đối chiếu</th><th>Dự đoán 3 càng</th><th>KQ 3 càng</th><th>Đối chiếu</th><th>Dự đoán Đề</th><th>KQ Đề</th><th>Đối chiếu</th><th>Xiên 1–4</th><th>Trạng thái</th></tr></thead><tbody id="predictionHistory"><tr><td colspan="12" class="empty">Chưa có lịch sử dự đoán</td></tr></tbody></table></div></div>
+</section>
+<section id="tab-filter" class="hide">
+ <div class="card section">
+  <h2>Lọc số – số ngày chưa xuất hiện</h2>
+  <p class="muted">Nhập các số có 2 chữ số, cách nhau bằng dấu phẩy. LOTUS sẽ dò toàn bộ kết quả xổ số thực tế đã tải (tất cả các giải), tìm ngày xuất hiện gần nhất và tính số ngày đã vắng mặt tính đến kỳ mới nhất trong dữ liệu.</p>
+  <div class="row">
+   <input id="filterNumbers" type="text" placeholder="Ví dụ: 64, 17, 97, 46" aria-label="Nhập các số cần lọc" style="flex:1;min-width:240px">
+   <button id="filterRun" type="button" onclick="runNumberFilter()">Lọc số</button>
+   <button class="secondary" type="button" onclick="clearNumberFilter()">Xóa</button>
+  </div>
+  <div id="filterSummary" class="muted section">Chưa có số được lọc.</div>
+  <div class="tablewrap"><table><thead><tr><th>#</th><th>Số cần lọc</th><th>Ngày xuất hiện gần nhất</th><th>Số ngày chưa xuất hiện</th><th>Kết quả</th></tr></thead><tbody id="filterResults"><tr><td colspan="5" class="empty">Nhập số rồi nhấn “Lọc số”.</td></tr></tbody></table></div>
+  <p class="muted section" style="font-size:12px">Lưu ý: Chỉ tính theo dữ liệu kết quả thực tế đã tải về máy; số ngày là chênh lệch ngày lịch giữa kỳ mới nhất và lần xuất hiện gần nhất, không phải dự đoán ngày sẽ ra.</p>
+ </div>
 </section>
 <section id="tab-history" class="hide"><div class="row section"><h2>Lịch sử</h2><input id="searchDate" placeholder="Tìm ngày (dd/mm/yyyy)" oninput="renderHistory()"><button class="secondary push" onclick="exportCSV()">Xuất CSV</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Thứ</th><th>Đặc biệt</th><th>Giải nhất</th><th>Toàn bộ kết quả</th></tr></thead><tbody id="historyTable"></tbody></table></div></div></section>
 <footer>Nguồn dữ liệu tham khảo: Xổ Số VN API · Dữ liệu bên thứ ba, vui lòng đối chiếu nguồn công bố chính thức.</footer>
@@ -898,7 +940,7 @@ function rankEnding(len){
 function makePrediction(){
  if(!draws.length){$('predictionStatus').textContent='Chưa có dữ liệu lịch sử. Hãy cập nhật dữ liệu trước.';return}
  const key=todayKey(),store=readPredictions();
- if(store[key]&&store[key].groups?.four&&store[key].groups?.three&&store[key].groups?.de){$('predictionStatus').textContent='Dự đoán ngày mai đã được lưu.';renderPrediction();return}
+ if(store[key]&&store[key].groups?.four&&store[key].groups?.three&&store[key].groups?.de&&store[key].groups?.firstPrize&&String(store[key].groups.firstPrize).length===2){$('predictionStatus').textContent='Dự đoán ngày mai đã được lưu.';renderPrediction();return}
  const s=stats(), recentDraws=draws.slice(0,30);
  const ranked=Array.from({length:100},(_,i)=>{
   const count=s.counts[i],gap=s.last[i]<0?draws.length:s.last[i];
@@ -915,6 +957,10 @@ function makePrediction(){
   return top[idx];
  }
  const e4=rankEnding(4),e3=rankEnding(3);
+ const firstCounts=new Map();
+ for(const d of draws){const n=normalize(d).first;if(n&&n.length>=5){const v=n.slice(-2).padStart(2,'0');firstCounts.set(v,(firstCounts.get(v)||0)+1)}}
+ const firstRank=[...firstCounts.entries()].map(([n,count])=>({n,count})).sort((a,b)=>b.count-a.count||a.n.localeCompare(b.n));
+ const first=pickWeighted(firstRank);
  const four=pickWeighted(e4),three=pickWeighted(e3);
  const dePool=ranked.slice(0,30).map(x=>({n:x.n,count:Math.max(0,x.score)}));
  const de=pickWeighted(dePool);
@@ -924,23 +970,23 @@ function makePrediction(){
   const x=pickWeighted(pool);if(!x)break;xiens.push(x.n);
   const idx=pool.findIndex(y=>y.n===x.n);if(idx>=0)pool.splice(idx,1);
  }
- const groups={four:four?.n||null,three:three?.n||null,de:de?.n||null,xiens};
+ const groups={four:four?.n||null,three:three?.n||null,de:de?.n||null,firstPrize:first?.n||null,xiens};
  store[key]={date:key,groups,createdAt:new Date().toISOString(),basis:'Tần suất đuôi giải đặc biệt 365 ngày; tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện'};
  savePredictions(store);renderPrediction();
 }
 function renderPrediction(){
  const key=todayKey(),store=readPredictions(),p=store[key];
  const predictionDateObj=new Date(key+'T00:00:00');const weekdayText=predictionDateObj.toLocaleDateString('vi-VN',{weekday:'long'});const dateText=predictionDateObj.toLocaleDateString('vi-VN');$('predictionDate').textContent=weekdayText.charAt(0).toUpperCase()+weekdayText.slice(1)+' · '+dateText;
- const ids=['pred4','pred3','predDe','predX1','predX2','predX3','predX4'];
+ const ids=['pred4','pred3','predDe','predFirst','predX1','predX2','predX3','predX4'];
  if(!p){ids.forEach(id=>$(id).textContent='—');$('predictionStatus').textContent=draws.length?'Chưa có dự đoán cho ngày mai':'Cần cập nhật dữ liệu trước';$('predictionBasis').textContent='Chưa có dự đoán.';$('predictionCheck').textContent='Chưa có dự đoán để đối chiếu.';}
  else{
   const g=p.groups||{four:null,three:null,de:null,xiens:p.numbers||[]};
-  $('pred4').textContent=g.four||'—';$('pred3').textContent=g.three||'—';$('predDe').textContent=g.de||'—';
+  $('pred4').textContent=g.four||'—';$('pred3').textContent=g.three||'—';$('predDe').textContent=g.de||'—';$('predFirst').textContent=g.firstPrize||'—';
   for(let i=1;i<=4;i++)$('predX'+i).textContent=(g.xiens||[]).slice(0,i).join(' · ')||'—';
   $('predictionStatus').textContent='Đã lưu và khóa lúc '+new Date(p.createdAt).toLocaleTimeString('vi-VN');
-  $('predictionBasis').innerHTML=`<div>Phạm vi: ${draws.length} kỳ lịch sử đang có</div><div>4 càng/3 càng: tần suất đuôi giải đặc biệt</div><div>Đề/xiên: tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện</div><div class="muted" style="margin-top:8px">Điểm xếp hạng không phải xác suất trúng.</div>`;
+  $('predictionBasis').innerHTML=`<div>Phạm vi: ${draws.length} kỳ lịch sử đang có</div><div>4 càng/3 càng: tần suất đuôi giải đặc biệt</div><div>Đề/xiên: tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện</div><div>Nhất to: xếp hạng tần suất 5 số cuối giải nhất trong dữ liệu lịch sử</div><div class="muted" style="margin-top:8px">Điểm xếp hạng không phải xác suất trúng.</div>`;
   const targetDraw=draws.find(d=>dateObj(d.date).toDateString()===new Date(key+'T00:00:00').toDateString());
-  if(targetDraw){const sp=normalize(targetDraw).special;const a4=sp.slice(-4),a3=sp.slice(-3),a2=sp.slice(-2);$('predictionCheck').innerHTML=`<b>Kết quả ĐB: ${sp||'—'}</b><div class="muted">4 càng: ${g.four||'—'} ${g.four===a4?'✓ TRÚNG':'✕ Chưa trúng'} · 3 càng: ${g.three||'—'} ${g.three===a3?'✓ TRÚNG':'✕ Chưa trúng'} · Đề: ${g.de||'—'} ${g.de===a2?'✓ TRÚNG':'✕ Chưa trúng'}</div>`;}
+  if(targetDraw){const sp=normalize(targetDraw).special;const a4=sp.slice(-4),a3=sp.slice(-3),a2=sp.slice(-2),firstResult=normalize(targetDraw).first.slice(-2);$('predictionCheck').innerHTML=`<b>Kết quả ĐB: ${sp||'—'} · Giải nhất: ${firstResult||'—'}</b><div class="muted">4 càng: ${g.four||'—'} ${g.four===a4?'✓ TRÚNG':'✕ Chưa trúng'} · 3 càng: ${g.three||'—'} ${g.three===a3?'✓ TRÚNG':'✕ Chưa trúng'} · Đề: ${g.de||'—'} ${g.de===a2?'✓ TRÚNG':'✕ Chưa trúng'} · Nhất to: ${g.firstPrize||'—'} ${g.firstPrize===firstResult?'✓ TRÚNG':'✕ Chưa trúng'}</div>`;}
   else $('predictionCheck').textContent='Chưa có kết quả ngày mục tiêu trong dữ liệu đã tải.';
  }
  const records=Object.keys(store).sort().reverse().map(d=>{
@@ -1094,8 +1140,37 @@ function initLunarCalendar(){
  renderLunarCalendar();
 }
 
+function runNumberFilter(){
+ const input=$('filterNumbers'),body=$('filterResults'),summary=$('filterSummary');
+ const raw=(input.value||'').trim();
+ if(!raw){summary.textContent='Vui lòng nhập ít nhất một số.';body.innerHTML='<tr><td colspan="5" class="empty">Chưa có số để lọc.</td></tr>';return}
+ const tokens=raw.split(/[,,;\\s]+/).filter(Boolean),numbers=[],invalid=[];
+ for(const token of tokens){const n=token.replace(/\\D/g,'');if(n.length===2){if(!numbers.includes(n))numbers.push(n)}else invalid.push(token)}
+ if(!numbers.length){summary.textContent='Không có số hợp lệ. Hãy nhập số từ 00 đến 99.';body.innerHTML='<tr><td colspan="5" class="empty">Ví dụ nhập: 64, 17, 97, 46.</td></tr>';return}
+ if(!draws.length){summary.textContent='Chưa có dữ liệu kết quả thực tế. Hãy nhấn “Cập nhật dữ liệu” trước.';body.innerHTML='<tr><td colspan="5" class="empty">Chưa có dữ liệu để đối chiếu.</td></tr>';return}
+ const dated=draws.map(d=>({d,date:dateObj(d.date)})).filter(x=>!isNaN(x.date.getTime())).sort((a,b)=>b.date-a.date);
+ if(!dated.length){summary.textContent='Dữ liệu chưa có ngày hợp lệ.';return}
+ const latest=dated[0].date;latest.setHours(0,0,0,0);
+ const rows=numbers.map((n,i)=>{
+  let found=null;
+  for(const item of dated){if(normalize(item.d).nums.includes(n)){found=item.date;break}}
+  if(!found)return `<tr><td class="num">${i+1}</td><td class="num"><b>${n}</b></td><td>Chưa xuất hiện trong dữ liệu</td><td class="num">—</td><td>Không tìm thấy lần xuất hiện</td></tr>`;
+  const last=new Date(found);last.setHours(0,0,0,0);
+  const days=Math.max(0,Math.floor((latest-last)/86400000));
+  return `<tr><td class="num">${i+1}</td><td class="num"><b>${n}</b></td><td>${fmtDate(found)}</td><td class="num"><b>${days}</b></td><td>${days===0?'Có xuất hiện ở kỳ mới nhất':'Chưa xuất hiện '+days+' ngày'}</td></tr>`;
+ });
+ body.innerHTML=rows.join('');
+ summary.textContent=`Đã lọc ${numbers.length} số · Dữ liệu đến ngày ${fmtDate(latest)} · ${dated.length} kỳ kết quả thực tế${invalid.length?' · Bỏ qua mục không hợp lệ: '+invalid.join(', '):''}`;
+}
+function clearNumberFilter(){
+ $('filterNumbers').value='';
+ $('filterSummary').textContent='Chưa có số được lọc.';
+ $('filterResults').innerHTML='<tr><td colspan="5" class="empty">Nhập số rồi nhấn “Lọc số”.</td></tr>';
+}
+$('filterNumbers').addEventListener('keydown',e=>{if(e.key==='Enter')runNumberFilter()});
+
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main section[id^=tab-]').forEach(x=>x.classList.toggle('hide',x.id!=='tab-'+b.dataset.tab))}));
 initLunarCalendar();load();render();if(!draws.length)syncData();else{$('syncStatus').textContent='Đã tải dữ liệu đã lưu · '+draws.length+' kỳ';ensureTomorrowPrediction()}setInterval(syncData,15*60*1000);
-function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(!p?.groups?.four||!p?.groups?.three||!p?.groups?.de)makePrediction()}
+function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(!p?.groups?.four||!p?.groups?.three||!p?.groups?.de||(!p?.groups?.firstPrize||String(p.groups.firstPrize).length!==2))makePrediction()}
 
 </script></body></html>
