@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123d2c"><title>LOTUS</title>
+<style>
+:root{--bg:#091b20;--panel:#102b3a;--panel2:#173c3b;--line:#285347;--gold:#b9a16a;--gold2:#d8c99e;--txt:#edf6f0;--muted:#a8c0b4;--green:#70a987;--red:#d98b82}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#08191e,#102b3a 55%,#123b32);color:var(--txt);font:14px/1.5 Arial,sans-serif}
+header{padding:22px max(18px,calc((100% - 1400px)/2));border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;background:#0b2028eF;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.brand{font-size:29px;letter-spacing:5px;font-weight:800;color:var(--gold2)}.sub{font-size:11px;color:var(--muted);letter-spacing:1.4px}
+.wrap{max-width:1400px;margin:auto;padding:20px}.topline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.status{color:var(--muted);font-size:12px}
+button,.btn{border:1px solid #6b9b78;background:linear-gradient(135deg,#8ebd91,#4d8b68);color:#09231b;padding:10px 14px;border-radius:9px;font-weight:700;cursor:pointer}button.secondary{background:#173b3a;color:var(--txt);border-color:var(--line)}button:disabled{opacity:.55;cursor:wait}
+nav{display:flex;gap:8px;overflow:auto;margin:18px 0;padding-bottom:5px}nav button{white-space:nowrap;background:#15352f;color:#c5d8cd;border:1px solid var(--line)}nav button.active{background:#d7ad62;color:#09231b;border-color:#d7ad62}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.card{background:linear-gradient(145deg,#12243a,#0e1c2d);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}.metric{font-size:28px;font-weight:800;color:var(--gold2);margin-top:4px}.muted{color:var(--muted)}.section{margin:18px 0}.section h2{font-size:17px;margin:0 0 12px;color:var(--gold2)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.push{margin-left:auto}input,select{background:#0b1929;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:10px;min-width:130px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--gold2);font-weight:700;background:#173a38;position:sticky;top:0}td.num{text-align:center;font-variant-numeric:tabular-nums}.tablewrap{overflow:auto;max-height:540px;border:1px solid var(--line);border-radius:10px}
+.pills{display:flex;flex-wrap:wrap;gap:7px}.pill{padding:6px 10px;border-radius:20px;background:#1d493d;color:#d9e3ed;border:1px solid #30465f}.numgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px}.numcell{background:#173c3b;border:1px solid #2b425b;border-radius:9px;text-align:center;padding:10px 2px}.numcell b{display:block;font-size:17px;color:var(--gold2)}.numcell small{color:var(--muted)}
+.bar{height:7px;background:#294d45;border-radius:9px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#39785b,#91bd8e)}
+.notice{border:1px solid #655333;background:#203b30;color:#d8ebd5;padding:11px 13px;border-radius:10px;font-size:12px}.empty{padding:28px;text-align:center;color:var(--muted)}.hide{display:none!important}
+footer{color:var(--muted);font-size:11px;padding:22px 0;text-align:center}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:13px}header{padding:14px}.brand{font-size:24px}}
+@media(max-width:480px){#predictionRates{grid-template-columns:repeat(2,minmax(0,1fr))!important}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.card{padding:12px}.metric{font-size:23px}.numgrid{gap:4px}.numcell{padding:8px 1px}.numcell b{font-size:15px}th,td{padding:8px 6px}}
+
+/* LOTUS light jade + warm gold theme */
+:root{--bg:#eaf7f2;--panel:#ffffff;--panel2:#f3fbf7;--line:#c8e4d8;--gold:#b88a32;--gold2:#9a7022;--txt:#24483e;--muted:#66877b;--green:#4d9b7a;--red:#c96e63}
+body{background:radial-gradient(ellipse at top left,#f9fffc 0%,#e7f5ef 48%,#d9eee5 100%);color:var(--txt)}
+header{background:rgba(247,253,250,.94);border-bottom:1px solid #c6e2d6;box-shadow:0 5px 22px rgba(43,105,81,.08)}
+.brand{color:#27745d;letter-spacing:4px}.sub{color:#9b762f;letter-spacing:1.2px}
+button,.btn{border:1px solid #c59a45;background:linear-gradient(135deg,#f4dfaa,#d9b45e);color:#594216;box-shadow:0 2px 6px rgba(144,111,42,.10)}
+button.secondary{background:#edf8f3;color:#356b57;border-color:#b8d9ca;box-shadow:none}
+nav button{background:#f4fbf7;color:#477464;border:1px solid #c6e2d6}
+nav button.active{background:linear-gradient(135deg,#d9b45e,#f1d99c);color:#594216;border-color:#c59a45}
+.card{background:linear-gradient(145deg,#ffffff,#f5fbf8);border:1px solid #c8e4d8;box-shadow:0 5px 18px rgba(53,112,87,.055)}
+.metric{color:#a77a27}.section h2,.card h2{color:#8f6a25}
+input,select{background:#fff;color:#24483e;border:1px solid #c4dfd2}
+th{color:#89651f;background:#edf7f1}
+td,th{border-bottom-color:#d8eae1}
+.pill{background:#edf8f3;color:#47735f;border:1px solid #c8e4d8}
+.numcell{background:#f2faf6;border:1px solid #cde5d9}
+.numcell b{color:#9a7022}
+.bar{background:#dceee5}.bar i{background:linear-gradient(90deg,#73b89a,#d6b45f)}
+.notice{border:1px solid #e1c987;background:#fff9e9;color:#725a27}
+.empty{color:#78958a}footer{color:#78958a}
+.brandlock{display:flex;align-items:center;gap:13px}.lotus-mark{width:48px;height:48px;flex:none;filter:drop-shadow(0 2px 3px rgba(90,120,90,.13))}.brandcopy{display:flex;flex-direction:column;gap:1px}
+@media(max-width:480px){.lotus-mark{width:40px;height:40px}.brand{font-size:22px}.sub{font-size:9px}}
+
+.feng-profile{border-color:rgba(235,204,130,.48);background:linear-gradient(112deg,rgba(40,104,65,.78),rgba(9,49,34,.76));}
+/* LOTUS prosperity edition – Canh Than 1980 / Thach Luu Moc */
+:root{
+ --bg:#092b20;--panel:rgba(19,65,47,.72);--panel2:rgba(27,83,59,.62);
+ --line:rgba(211,177,99,.34);--gold:#c49a43;--gold2:#f0d58c;
+ --txt:#f4f4e9;--muted:#c0d0bd;--green:#8bbd83;--red:#e28e78;
+}
+html{background:#08271d}
+body{
+ color:var(--txt);
+ background:
+  radial-gradient(ellipse at 12% 4%,rgba(73,139,82,.36),transparent 36%),
+  radial-gradient(ellipse at 88% 22%,rgba(31,104,76,.30),transparent 34%),
+  linear-gradient(135deg,#061e17 0%,#0b3525 46%,#123e2b 100%);
+ background-attachment:fixed;
+}
+header{
+ background:rgba(5,31,22,.82);border-bottom:1px solid rgba(221,187,111,.35);
+ box-shadow:0 12px 34px rgba(0,0,0,.22);backdrop-filter:blur(22px) saturate(145%);
+}
+.brand{color:#f2d68d;text-shadow:0 2px 14px rgba(226,190,108,.18)}
+.sub{color:#d5bd80}
+.lotus-mark{width:76px;height:64px;filter:drop-shadow(0 0 9px rgba(225,190,104,.3))}
+.wrap{position:relative}
+.topline>.muted{color:#d6e5d6}
+.pill{
+ background:rgba(30,91,62,.48);color:#f0d58c;border:1px solid rgba(214,180,105,.34);
+ backdrop-filter:blur(12px)
+}
+.notice{
+ background:linear-gradient(110deg,rgba(26,83,55,.78),rgba(18,58,44,.68));
+ border:1px solid rgba(215,181,106,.43);color:#e9dfbd;
+ box-shadow:inset 0 1px rgba(255,255,255,.08),0 10px 26px rgba(0,0,0,.12);
+ backdrop-filter:blur(18px)
+}
+nav{scrollbar-color:#b58c3d transparent}
+nav button{
+ background:rgba(24,75,52,.62);color:#e0e9d8;border:1px solid rgba(211,177,99,.28);
+ backdrop-filter:blur(12px)
+}
+nav button.active{
+ background:linear-gradient(135deg,#f0d58c,#b88732);color:#26351f;
+ border-color:#f0d58c;box-shadow:0 4px 16px rgba(199,157,67,.22)
+}
+.card{
+ background:linear-gradient(145deg,rgba(31,88,61,.72),rgba(10,48,34,.74));
+ border:1px solid rgba(222,190,119,.28);border-radius:17px;
+ box-shadow:inset 0 1px rgba(255,255,255,.10),0 12px 30px rgba(0,0,0,.18);
+ backdrop-filter:blur(20px) saturate(140%)
+}
+.metric{color:#f0d58c;text-shadow:0 2px 12px rgba(224,185,100,.14)}
+.section h2,.card h2{color:#f0d58c}
+button,.btn{
+ background:linear-gradient(135deg,#f3dfa7 0%,#d8b45e 48%,#b88732 100%);
+ color:#26351f;border:1px solid #f1d58e;
+ box-shadow:0 5px 16px rgba(177,133,47,.20),inset 0 1px rgba(255,255,255,.65)
+}
+button.secondary{background:rgba(24,75,52,.75);color:#f2e2b7;border-color:rgba(220,187,112,.4)}
+input,select{
+ background:rgba(5,35,25,.72);color:#f4f4e9;border:1px solid rgba(220,187,112,.35);
+ backdrop-filter:blur(10px)
+}
+input::placeholder{color:#a9c0ae}
+th{color:#f0d58c;background:rgba(28,83,57,.92)}
+td,th{border-bottom-color:rgba(220,187,112,.18)}
+.tablewrap{border-color:rgba(220,187,112,.28);border-radius:13px}
+.pill{color:#f3dfa7}
+.numcell{
+ background:linear-gradient(145deg,rgba(36,100,67,.7),rgba(9,48,34,.8));
+ border:1px solid rgba(220,187,112,.25);border-radius:11px
+}
+.numcell b{color:#f2d58b}
+.bar{background:rgba(2,30,20,.65)}
+.bar i{background:linear-gradient(90deg,#76b77b,#e0bd69)}
+.empty{color:#bdd0bd}
+footer{color:#b6c9b4}
+
+@media(max-width:480px){
+ .lotus-mark{width:58px;height:50px}
+ header{gap:8px;align-items:center}
+ .brand{font-size:22px;letter-spacing:3px}
+ .sub{font-size:8px;letter-spacing:.6px}
+ header .status{display:none}
+}
+
+
+/* Refined LOTUS wordmark typography */
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+*{font-family:'Be Vietnam Pro',Arial,sans-serif}
+.brand{
+  font-family:'Be Vietnam Pro',Arial,sans-serif;
+  font-style:normal;font-weight:800;font-size:38px;line-height:1;
+  letter-spacing:2.2px;color:#f4d995;
+  text-shadow:0 1px 0 rgba(255,246,210,.22),0 4px 16px rgba(221,183,95,.22);
+  transform:translateY(-1px);
+}
+@media(max-width:850px){.brand{font-size:34px}}
+@media(max-width:480px){.brand{font-size:27px;letter-spacing:1.8px}}
+
+
+/* Lịch ngày hoàng đạo – lịch tham khảo theo quan niệm dân gian */
+.calendar-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.calendar-tools input{min-width:170px}
+.calendar-legend{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.calendar-legend .pill{display:inline-flex;align-items:center;gap:6px}
+.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.dayhead{text-align:center;color:#e8d39a;font-weight:700;padding:8px 2px;background:rgba(27,83,59,.7);border:1px solid rgba(220,187,112,.22);border-radius:8px}
+.daycell{min-height:92px;padding:8px 6px;border:1px solid rgba(220,187,112,.25);border-radius:10px;background:linear-gradient(145deg,rgba(36,94,65,.72),rgba(10,48,34,.82));cursor:pointer;text-align:left;color:var(--txt)}
+.daycell:hover,.daycell.selected{outline:2px solid #e2c274;outline-offset:1px}
+.daycell.emptyday{visibility:hidden}
+.daycell .daynum{font-size:18px;font-weight:800;color:#f0d58c}
+.daycell .daytag{display:block;font-size:10px;line-height:1.25;margin-top:4px;color:#dbe8d7}
+.daycell.good{border-color:#d8bd70;background:linear-gradient(145deg,rgba(75,120,66,.88),rgba(19,73,46,.9))}
+.daycell.caution{border-color:rgba(207,128,104,.65);background:linear-gradient(145deg,rgba(107,57,43,.62),rgba(54,35,30,.82))}
+.daycell.neutral{background:linear-gradient(145deg,rgba(36,94,65,.55),rgba(10,48,34,.68))}
+.calendar-detail{display:grid;grid-template-columns:1.2fr 2fr;gap:14px}
+.calendar-detail .metric{font-size:24px}
+@media(max-width:700px){
+ .daygrid{gap:4px}.daycell{min-height:72px;padding:5px 3px}.daycell .daynum{font-size:15px}.daycell .daytag{font-size:9px}
+ .calendar-detail{grid-template-columns:1fr}
+}
+
+
+
+/* V1.16 – cân đối thanh menu */
+nav{
+ display:grid !important;
+ grid-template-columns:repeat(7,minmax(0,1fr));
+ gap:10px;
+ width:100%;
+ align-items:stretch;
+ overflow:visible;
+ margin:18px 0;
+ padding:0;
+}
+nav button{
+ width:100%;
+ min-width:0;
+ min-height:68px;
+ padding:12px 10px;
+ white-space:normal !important;
+ text-align:center;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ line-height:1.25;
+ font-size:clamp(13px,1.15vw,17px);
+ font-weight:700;
+ border-radius:16px;
+}
+@media(max-width:1050px){
+ nav{grid-template-columns:repeat(4,minmax(0,1fr));}
+}
+@media(max-width:600px){
+ nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+ nav button{min-height:52px;padding:9px 7px;font-size:13px;border-radius:12px;}
+}
+
+
+/* V1.17 – menu gọn theo kích thước nội dung, không kéo giãn nút */
+nav{
+ display:flex !important;
+ flex-flow:row wrap;
+ align-items:center;
+ justify-content:flex-start;
+ gap:10px;
+ width:100%;
+ margin:18px 0;
+ padding:0;
+ overflow:visible;
+}
+nav button{
+ flex:0 0 auto !important;
+ width:auto !important;
+ min-width:0 !important;
+ min-height:50px !important;
+ padding:12px 20px !important;
+ white-space:nowrap !important;
+ text-align:center;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ line-height:1.2;
+ font-size:16px !important;
+ font-weight:700;
+ border-radius:14px;
+}
+@media(max-width:700px){
+ nav{gap:8px;}
+ nav button{
+  min-height:44px !important;
+  padding:10px 13px !important;
+  font-size:13px !important;
+ }
+}
+
+
+/* V1.18 – 7 menu cân đối trên một hàng */
+nav{
+ display:grid !important;
+ grid-template-columns:repeat(7,minmax(0,1fr)) !important;
+ gap:10px !important;
+ width:100%;
+ align-items:stretch;
+}
+nav button{
+ width:100% !important;
+ min-width:0 !important;
+ min-height:54px !important;
+ height:54px;
+ padding:8px 6px !important;
+ white-space:normal !important;
+ text-align:center;
+ display:flex !important;
+ align-items:center;
+ justify-content:center;
+ line-height:1.15;
+ font-size:clamp(12px,1.05vw,16px) !important;
+ font-weight:700;
+ border-radius:15px;
+}
+@media(max-width:900px){
+ nav{grid-template-columns:repeat(4,minmax(0,1fr)) !important;}
+ nav button{font-size:13px !important;}
+}
+@media(max-width:560px){
+ nav{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px !important;}
+ nav button{min-height:46px !important;height:auto;padding:8px 5px !important;font-size:12px !important;}
+}
+
+
+/* V1.19 – wordmark LOTUS tinh tế, bỏ dòng mô tả */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap');
+.brand{
+ font-family:'Cinzel','Times New Roman',serif !important;
+ font-style:normal !important;
+ font-weight:700 !important;
+ font-size:clamp(30px,3vw,43px) !important;
+ letter-spacing:5px !important;
+ line-height:1 !important;
+ color:#f3d995 !important;
+ background:linear-gradient(180deg,#fff0bd 0%,#e8ca7c 48%,#b88b3f 100%);
+ -webkit-background-clip:text;
+ background-clip:text;
+ -webkit-text-fill-color:transparent;
+ text-shadow:0 3px 16px rgba(222,184,92,.16);
+ transform:none !important;
+}
+.brandcopy{display:flex;align-items:center;justify-content:center;gap:0 !important}
+@media(max-width:480px){.brand{font-size:27px !important;letter-spacing:3px !important}}
+
+
+/* V1.20 – PC mặc định hiển thị tương đương 80%, điện thoại giữ tỷ lệ tự nhiên */
+@media (min-width: 851px){
+ body{zoom:.8;}
+}
+@media (max-width: 850px){
+ body{zoom:1 !important;}
+ html,body{width:100%;max-width:100%;overflow-x:hidden;}
+ .wrap{width:100%;max-width:100%;box-sizing:border-box;padding:14px;}
+ header{padding-left:14px !important;padding-right:14px !important;}
+ .brandlock{min-width:0;gap:9px;}
+ .lotus-mark{width:42px;height:42px;}
+ .topline{flex-wrap:wrap;gap:8px;}
+ nav{width:100%;max-width:100%;box-sizing:border-box;}
+ nav button{min-width:0;white-space:normal !important;overflow-wrap:anywhere;}
+ .grid,.cards,.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+}
+@media (max-width:560px){
+ .wrap{padding:10px;}
+ header{gap:8px;flex-wrap:wrap;}
+ .brand{font-size:26px !important;}
+ .lotus-mark{width:36px;height:36px;}
+ nav{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+ nav button{font-size:12px !important;min-height:44px !important;padding:8px 5px !important;}
+ .grid,.cards,.stats-grid{grid-template-columns:minmax(0,1fr) !important;}
+ table{display:block;max-width:100%;overflow-x:auto;}
+}
+
+
+/* V1.23 – kết quả mới nhất bên trái, bảng lô tô đầu 0–9 bên phải */
+.latest-layout{
+ display:grid;
+ grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+ gap:14px;
+ align-items:stretch;
+}
+.latest-layout>.card{min-width:0;margin:0;}
+.latest-loto{display:flex;flex-direction:column;gap:7px;}
+.loto-head-row{
+ display:grid;
+ grid-template-columns:42px minmax(0,1fr);
+ align-items:start;
+ gap:10px;
+ padding:8px 10px;
+ border:1px solid var(--line);
+ border-radius:9px;
+ background:rgba(9,35,27,.22);
+}
+.loto-head-digit{
+ display:flex;align-items:center;justify-content:center;
+ min-height:32px;border-radius:7px;
+ color:var(--gold2);font-size:17px;font-weight:800;
+ background:rgba(211,177,99,.12);
+}
+.loto-head-numbers{
+ display:flex;flex-wrap:wrap;gap:6px 8px;
+ color:var(--txt);font-weight:700;line-height:1.6;
+}
+.loto-head-numbers span{white-space:nowrap;}
+@media(max-width:850px){
+ .latest-layout{grid-template-columns:minmax(0,1fr);}
+}
+
+
+/* V1.24 – đồng nhất cỡ chữ giữa hai khung kết quả */
+.latest-layout>.card{font-size:14px;}
+.latest-layout>.card h2{font-size:18px !important;line-height:1.35;}
+.latest-layout #latestResult,
+.latest-layout #latestResult .row,
+.latest-layout #latestResult .muted,
+.latest-layout #latestResult .pill,
+.latest-layout .loto-head-digit,
+.latest-layout .loto-head-numbers,
+.latest-layout .loto-head-numbers span{
+ font-size:14px !important;
+ line-height:1.55;
+}
+.latest-layout .loto-head-digit{font-weight:700;}
+.latest-layout .loto-head-numbers{font-weight:600;}
+
+
+/* V1.25 – bảng kết quả xổ số dạng bảng giải truyền thống */
+.lottery-result-table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff;color:#111;border:1px solid #c9c9c9;}
+.lottery-result-table th,.lottery-result-table td{border:1px solid #c9c9c9;padding:8px 6px;text-align:center;vertical-align:middle;}
+.lottery-result-table th{width:92px;font-size:14px;font-weight:500;background:#f7f7f7;}
+.lottery-result-table td{font-size:20px;font-weight:800;letter-spacing:.2px;overflow-wrap:anywhere;}
+.lottery-result-table tr:nth-child(2){background:#fffed7;}
+.lottery-result-table tr:first-child td{color:#b94c37;}
+.lottery-result-table .prize-values{display:grid;gap:5px;align-items:center;justify-items:center;}
+.lottery-result-table .prize-values.cols-1{grid-template-columns:1fr;}
+.lottery-result-table .prize-values.cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.lottery-result-table .prize-values.cols-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.lottery-result-table .prize-values.cols-4{grid-template-columns:repeat(4,minmax(0,1fr));}
+.lottery-result-table .prize-values span{white-space:nowrap;}
+@media(max-width:850px){
+ .lottery-result-table th{width:74px;font-size:12px;}
+ .lottery-result-table td{font-size:16px;padding:7px 3px;}
+}
+@media(max-width:480px){
+ .lottery-result-table th{width:64px;font-size:11px;}
+ .lottery-result-table td{font-size:14px;padding:6px 2px;}
+}
+
+
+/* V1.26 – đồng bộ font, cỡ chữ và màu bảng giải với bảng lô tô bên phải */
+.lottery-result-table{
+ width:100%;
+ border-collapse:separate !important;
+ border-spacing:0 5px !important;
+ table-layout:fixed;
+ background:transparent !important;
+ color:var(--txt) !important;
+ border:0 !important;
+ font-family:'Be Vietnam Pro',Arial,sans-serif !important;
+}
+.lottery-result-table tr,
+.lottery-result-table tr:nth-child(2){background:transparent !important;}
+.lottery-result-table th,
+.lottery-result-table td{
+ border-top:1px solid var(--line) !important;
+ border-bottom:1px solid var(--line) !important;
+ border-left:0 !important;
+ border-right:0 !important;
+ padding:9px 7px !important;
+ text-align:center;
+ vertical-align:middle;
+ background:rgba(9,35,27,.22) !important;
+ color:var(--txt) !important;
+ font-family:'Be Vietnam Pro',Arial,sans-serif !important;
+ font-size:14px !important;
+ line-height:1.5 !important;
+}
+.lottery-result-table th{
+ width:92px;
+ border-left:1px solid var(--line) !important;
+ border-radius:10px 0 0 10px;
+ color:var(--gold2) !important;
+ font-weight:700 !important;
+}
+.lottery-result-table td{
+ border-right:1px solid var(--line) !important;
+ border-radius:0 10px 10px 0;
+ font-weight:700 !important;
+ letter-spacing:0 !important;
+}
+.lottery-result-table tr:first-child td{color:var(--txt) !important;}
+.lottery-result-table .prize-values{gap:5px;min-height:30px;}
+.lottery-result-table .prize-values span{
+ white-space:nowrap;
+ color:var(--txt) !important;
+ font:700 14px/1.5 'Be Vietnam Pro',Arial,sans-serif !important;
+}
+@media(max-width:850px){
+ .lottery-result-table th{width:74px;font-size:13px !important;}
+ .lottery-result-table th,.lottery-result-table td{font-size:13px !important;padding:7px 4px !important;}
+ .lottery-result-table .prize-values span{font-size:13px !important;}
+}
+@media(max-width:480px){
+ .lottery-result-table th{width:64px;font-size:12px !important;}
+ .lottery-result-table th,.lottery-result-table td{font-size:12px !important;padding:6px 3px !important;}
+ .lottery-result-table .prize-values span{font-size:12px !important;}
+}
+
+
+/* V1.27 – căn giữa nội dung ba thẻ dự đoán */
+#tab-prediction > .card > .grid.section{
+  align-items:stretch;
+}
+#tab-prediction > .card > .grid.section > .card{
+  text-align:center !important;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+#tab-prediction > .card > .grid.section > .card h2,
+#tab-prediction > .card > .grid.section > .card .metric,
+#tab-prediction > .card > .grid.section > .card small{
+  width:100%;
+  text-align:center !important;
+}
+#tab-prediction > .card > .grid.section > .card h2{margin-left:auto;margin-right:auto;}
+#tab-prediction > .card > .grid.section > .card .metric{margin-left:auto;margin-right:auto;}
+
+</style></head>
+<body>
+<header><div class="brandlock"><svg class="lotus-mark" viewBox="0 0 160 130" role="img" aria-label="Biểu tượng hoa sen LOTUS" xmlns="http://www.w3.org/2000/svg">
+<defs>
+ <linearGradient id="lotusGold" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#fff0b5"/><stop offset=".48" stop-color="#dfbd68"/><stop offset="1" stop-color="#a97828"/>
+ </linearGradient>
+</defs>
+<g fill="none" stroke="url(#lotusGold)" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+ <!-- outer side petals -->
+ <path d="M80 104 C48 104 22 88 9 62 C34 58 58 70 80 104Z"/>
+ <path d="M80 104 C112 104 138 88 151 62 C126 58 102 70 80 104Z"/>
+ <!-- lower layered petals -->
+ <path d="M80 108 C54 111 38 101 29 88 C51 81 68 88 80 108Z"/>
+ <path d="M80 108 C106 111 122 101 131 88 C109 81 92 88 80 108Z"/>
+ <!-- middle petals -->
+ <path d="M80 104 C43 91 34 66 43 39 C65 49 77 71 80 104Z"/>
+ <path d="M80 104 C117 91 126 66 117 39 C95 49 83 71 80 104Z"/>
+ <!-- tall central petals -->
+ <path d="M80 104 C48 77 52 42 80 8 C108 42 112 77 80 104Z"/>
+ <path d="M80 104 C63 78 66 48 80 25 C94 48 97 78 80 104Z" opacity=".82"/>
+ <!-- base -->
+ <path d="M25 112 C53 121 107 121 135 112"/>
+ <path d="M42 117 C62 123 98 123 118 117" opacity=".7"/>
+</g>
+</svg><div class="brandcopy"><div class="brand">LOTUS</div></div></div><div class="topline"><span id="syncStatus" class="status">Chưa đồng bộ</span><button id="syncBtn" onclick="syncData()">↻ Cập nhật dữ liệu</button></div></header>
+<main class="wrap">
+<nav>
+<button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất 00–99</button><button data-tab="gan">Số lâu chưa xuất hiện</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử kết quả</button><button data-tab="calendar">Ngày hoàng đạo</button><button data-tab="prediction">Dự đoán ngày mai</button>
+</nav>
+<section id="tab-home">
+<div class="grid">
+<div class="card"><div class="muted">Số kỳ đã tải</div><div class="metric" id="mDraws">0</div><small class="muted">Trong khoảng dữ liệu</small></div>
+<div class="card"><div class="muted">Tổng lượt 2 số</div><div class="metric" id="mHits">0</div><small class="muted">Tất cả giải</small></div>
+<div class="card"><div class="muted">Số xuất hiện nhiều nhất</div><div class="metric" id="mHot">—</div><small class="muted" id="mHotCount">Chưa có dữ liệu</small></div>
+<div class="card"><div class="muted">Số lâu chưa xuất hiện</div><div class="metric" id="mCold">—</div><small class="muted" id="mColdGap">Chưa có dữ liệu</small></div>
+</div>
+<div class="grid section" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+<div class="card"><h2>10 số có tần suất cao</h2><div id="topHot"></div></div>
+<div class="card"><h2>10 số lâu chưa xuất hiện</h2><div id="topCold"></div></div>
+</div>
+<div class="latest-layout section">
+ <div class="card"><h2>Kết quả kỳ mới nhất</h2><div id="latestResult" class="empty">Đang chờ đồng bộ dữ liệu.</div></div>
+ <div class="card"><h2>Lô tô theo đầu · Kỳ mới nhất</h2><div id="latestLoto" class="latest-loto"><div class="empty">Đang chờ đồng bộ dữ liệu.</div></div></div>
+</div>
+</section>
+<section id="tab-frequency" class="hide">
+<div class="section row"><h2>Tần suất xuất hiện 00–99</h2><span class="push muted" id="freqRange"></span></div>
+<div class="card"><div id="numberGrid" class="numgrid"><div class="empty">Chưa có dữ liệu</div></div></div>
+<div class="card section"><h2>Bảng xếp hạng tần suất</h2><div class="tablewrap"><table><thead><tr><th>Số</th><th>Số lần xuất hiện</th><th>Tỷ trọng</th><th>Biểu đồ</th></tr></thead><tbody id="freqTable"></tbody></table></div></div>
+</section>
+<section id="tab-gan" class="hide"><div class="card"><h2>Khoảng cách từ lần xuất hiện gần nhất</h2><p class="muted">Số kỳ đã trôi qua kể từ lần gần nhất số đó xuất hiện trong bất kỳ giải nào.</p><div class="tablewrap"><table><thead><tr><th>#</th><th>Số</th><th>Số kỳ chưa xuất hiện</th><th>Lần gần nhất</th></tr></thead><tbody id="ganTable"></tbody></table></div></div></section>
+<section id="tab-pairs" class="hide"><div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="card"><h2>Thống kê đầu số</h2><div id="heads"></div></div><div class="card"><h2>Thống kê đuôi số</h2><div id="tails"></div></div></div><div class="card section"><h2>Số kép</h2><div id="doubles" class="pills"></div></div></section>
+
+<section id="tab-calendar" class="hide">
+ <div class="card section">
+  <div class="row"><h2>Lịch hoàng đạo & tuổi Canh Thân</h2><span class="push pill">Lịch tham khảo dân gian</span></div>
+  <p class="muted">Lịch đánh dấu ngày hoàng đạo/hắc đạo theo tháng âm lịch, kết hợp địa chi tuổi Thân: ngày Tý, Thìn (tam hợp), Tỵ (lục hợp) được ghi nhận thuận tuổi; ngày Dần (lục xung) được đánh dấu nên hạn chế. Đây là quan niệm truyền thống, không dự báo khả năng trúng xổ số.</p>
+  <div class="calendar-tools"><label for="calendarMonth" class="muted">Chọn tháng:</label><input id="calendarMonth" type="month"><button class="secondary" onclick="renderLunarCalendar()">Xem lịch</button></div>
+  <div class="calendar-legend">
+   <span class="pill">✦ Hoàng đạo + hợp tuổi</span>
+   <span class="pill">● Hoàng đạo</span>
+   <span class="pill">! Hắc đạo / xung tuổi</span>
+  </div>
+  <div class="notice section">
+   <b>Cách xác định ngày hoàng đạo – hắc đạo</b><br>
+   1. Đổi ngày dương lịch đang xem sang ngày âm lịch Việt Nam (múi giờ UTC+7).<br>
+   2. Lấy tháng âm lịch để tra nhóm địa chi ngày hoàng đạo theo bảng lịch dân gian; các địa chi còn lại được xếp hắc đạo.<br>
+   3. Xác định Can Chi ngày theo chu kỳ 12 địa chi để hiển thị ngày Tý, Sửu, Dần…<br>
+   4. Phần “hợp tuổi Thân” là lớp tham khảo riêng: Tý, Thìn (tam hợp), Tỵ (lục hợp); Dần (lục xung), Hợi (tương hại theo một số quan niệm). Điều này không làm thay đổi kết quả hoàng đạo/hắc đạo.
+  </div>
+  <div class="daygrid" id="lunarCalendarGrid"></div>
+ </div>
+ <div class="card section">
+  <h2>Chi tiết ngày được chọn</h2>
+  <div id="lunarCalendarDetail" class="empty">Chọn một ngày trên lịch để xem phân tích.</div>
+ </div>
+ <div class="notice section">Lưu ý: “Thuận tuổi” hoặc “nên hạn chế” chỉ là phân loại theo lịch Can Chi dân gian. Ngày hoàng đạo không làm tăng xác suất trúng; không nên dùng lịch này làm căn cứ đặt cược hoặc tăng tiền chơi.</div>
+</section>
+
+<section id="tab-prediction" class="hide">
+<div class="card section">
+ <div class="row"><h2>Dự đoán ngày mai</h2><span class="push pill" id="predictionDate"></span></div>
+ <p class="muted">Phân tích dữ liệu lịch sử để tạo các nhóm 4 càng đề, 3 càng đề, đề và xiên 1–4. Đây là thống kê tham khảo, không bảo đảm kết quả.</p>
+ <div class="grid section" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+  <div class="card"><h2>4 càng đề</h2><div id="pred4" class="metric">—</div><small class="muted">4 chữ số cuối giải đặc biệt</small></div>
+  <div class="card"><h2>3 càng đề</h2><div id="pred3" class="metric">—</div><small class="muted">3 chữ số cuối giải đặc biệt</small></div>
+  <div class="card"><h2>Đề</h2><div id="predDe" class="metric">—</div><small class="muted">2 chữ số cuối giải đặc biệt</small></div>
+ </div>
+ <div class="card section"><h2>Các bộ xiên</h2><div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+  <div class="numcell"><b id="predX1">—</b><small>Xiên 1</small></div>
+  <div class="numcell"><b id="predX2">—</b><small>Xiên 2</small></div>
+  <div class="numcell"><b id="predX3">—</b><small>Xiên 3</small></div>
+  <div class="numcell"><b id="predX4">—</b><small>Xiên 4</small></div>
+ </div></div>
+ <div class="row"><button id="makePredictionBtn" onclick="makePrediction()">Phân tích và tạo dự đoán</button><span class="muted" id="predictionStatus">Chưa có dự đoán cho ngày mai</span></div>
+</div>
+<div class="grid section" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+ <div class="card"><h2>Cơ sở xếp hạng</h2><div id="predictionBasis" class="muted">Cần có dữ liệu lịch sử để phân tích.</div></div>
+ <div class="card"><h2>Đối chiếu kết quả</h2><div id="predictionCheck" class="muted">Kết quả sẽ được đối chiếu sau khi có dữ liệu kỳ ngày mai.</div></div>
+</div>
+<div class="grid section" id="predictionRates" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+ <div class="card"><div class="muted">Tỷ lệ trúng 4 càng</div><div class="metric" id="rate4">—</div><small class="muted" id="rate4Detail">Chưa có kỳ đối chiếu</small></div>
+ <div class="card"><div class="muted">Tỷ lệ trúng 3 càng</div><div class="metric" id="rate3">—</div><small class="muted" id="rate3Detail">Chưa có kỳ đối chiếu</small></div>
+ <div class="card"><div class="muted">Tỷ lệ trúng Đề</div><div class="metric" id="rateDe">—</div><small class="muted" id="rateDeDetail">Chưa có kỳ đối chiếu</small></div>
+ <div class="card"><div class="muted">Tỷ lệ chung</div><div class="metric" id="rateAll">—</div><small class="muted" id="rateAllDetail">Trên các dự đoán đã có kết quả</small></div>
+</div>
+<div class="card section"><h2>Phân tích trúng – đối chiếu dự đoán với kết quả thực tế</h2><p class="muted">Chỉ tính tỷ lệ trên những ngày đã có kết quả xổ số. 4 càng, 3 càng và Đề được so với đuôi giải đặc biệt; tỷ lệ là thống kê quá khứ, không phải xác suất kỳ tiếp theo.</p><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Dự đoán 4 càng</th><th>KQ 4 càng</th><th>Đối chiếu</th><th>Dự đoán 3 càng</th><th>KQ 3 càng</th><th>Đối chiếu</th><th>Dự đoán Đề</th><th>KQ Đề</th><th>Đối chiếu</th><th>Xiên 1–4</th><th>Trạng thái</th></tr></thead><tbody id="predictionHistory"><tr><td colspan="12" class="empty">Chưa có lịch sử dự đoán</td></tr></tbody></table></div></div>
+</section>
+<section id="tab-history" class="hide"><div class="row section"><h2>Lịch sử kết quả</h2><input id="searchDate" placeholder="Tìm ngày (dd/mm/yyyy)" oninput="renderHistory()"><button class="secondary push" onclick="exportCSV()">Xuất CSV</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Thứ</th><th>Đặc biệt</th><th>Giải nhất</th><th>Toàn bộ kết quả</th></tr></thead><tbody id="historyTable"></tbody></table></div></div></section>
+<footer>Nguồn dữ liệu tham khảo: Xổ Số VN API · Dữ liệu bên thứ ba, vui lòng đối chiếu nguồn công bố chính thức.</footer>
+</main>
+<script>
+const API='https://api.xosovnm.net/api/lottery/region/mien-bac';
+const STORE='lotus_xsmb_v1';
+let draws=[];
+const $=id=>document.getElementById(id);
+function dateObj(s){let p=(s||'').split('/');return p.length===3?new Date(+p[2],+p[1]-1,+p[0]):new Date(s)}
+function fmtDate(d){return d.toLocaleDateString('vi-VN')}
+function allPrizes(item){let d=item?.data||{};let out=[];for(let k of ['db','g1','g2','g3','g4','g5','g6','g7','g8']){let v=d[k];if(Array.isArray(v))out.push(...v);else if(v!==undefined&&v!==null&&v!=='')out.push(v)}return out.map(x=>String(x).replace(/\D/g,'')).filter(x=>x.length>=2)}
+function firstPrize(v){if(Array.isArray(v))return v[0]??'';if(v&&typeof v==='object')return v.number??v.value??v.result??'';return v??''}
+function normalize(item){let p=allPrizes(item);return {date:item.date||'',day:item.day||'',special:String(firstPrize(item.data?.db)).replace(/\D/g,''),first:String(firstPrize(item.data?.g1)).replace(/\D/g,''),prizes:p,nums:p.map(x=>x.slice(-2).padStart(2,'0'))}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(draws))}catch(e){}}
+function load(){try{let x=JSON.parse(localStorage.getItem(STORE)||'[]');if(Array.isArray(x))draws=x}catch(e){}}
+async function getJson(url){let r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);let j=await r.json();if(j.success===false)throw Error(j.error||'Nguồn dữ liệu báo lỗi');return j.data??[]}
+async function syncData(){
+ const b=$('syncBtn');b.disabled=true;$('syncStatus').textContent='Đang kết nối nguồn dữ liệu…';
+ try{
+  let fresh=await getJson(API+'?limit=100');let merged=new Map();
+  for(let x of [...fresh,...draws])if(x?.date)merged.set(x.date,x);
+  let arr=[...merged.values()].sort((a,b)=>dateObj(b.date)-dateObj(a.date));
+  let cutoff=new Date();cutoff.setHours(0,0,0,0);cutoff.setDate(cutoff.getDate()-364);
+  let guard=0;
+  while(arr.length<365&&arr.length&&dateObj(arr[arr.length-1].date)>cutoff&&guard<15){
+   let before=arr[arr.length-1].date;
+   let more=await getJson(API+'/load-more?beforeDate='+encodeURIComponent(before)+'&limit=31');
+   if(!Array.isArray(more)||!more.length)break;
+   let n=0;for(let x of more)if(x?.date&&!merged.has(x.date)){merged.set(x.date,x);n++}
+   if(!n)break;arr=[...merged.values()].sort((a,b)=>dateObj(b.date)-dateObj(a.date));guard++;
+  }
+  draws=arr.filter(x=>dateObj(x.date)>=cutoff).sort((a,b)=>dateObj(b.date)-dateObj(a.date));
+  save();render();ensureTomorrowPrediction();$('syncStatus').textContent='Cập nhật lúc '+new Date().toLocaleTimeString('vi-VN')+' · '+draws.length+' kỳ';
+ }catch(e){$('syncStatus').textContent='Chưa cập nhật được: '+e.message+' · Thử lại sau';if(!draws.length)$('latestResult').textContent='Không kết nối được nguồn dữ liệu. Kiểm tra mạng hoặc thử lại.'}
+ finally{b.disabled=false}
+}
+function stats(){let counts=Array(100).fill(0),last=Array(100).fill(-1),total=0;draws.forEach((d,i)=>{for(let n of normalize(d).nums){let k=+n;counts[k]++;total++;if(last[k]===-1)last[k]=i}});return {counts,last,total}}
+function barList(el,items,field){$(el).innerHTML=items.map(x=>`<div style="margin:9px 0"><div class="row"><b>${x.n}</b><span class="muted">${x[field]} ${field==='count'?'lần':'kỳ'}</span></div><div class="bar"><i style="width:${Math.max(2,x.pct)}%"></i></div></div>`).join('')||'<div class="empty">Chưa có dữ liệu</div>'}
+function render(){
+ if($('countLabel'))$('countLabel').textContent=draws.length+' kỳ dữ liệu';$('mDraws').textContent=draws.length;
+ let s=stats(),sorted=Array.from({length:100},(_,i)=>({n:String(i).padStart(2,'0'),count:s.counts[i],gap:s.last[i]<0?draws.length: s.last[i],last:s.last[i]}));
+ let hot=[...sorted].sort((a,b)=>b.count-a.count||a.n.localeCompare(b.n)),cold=[...sorted].sort((a,b)=>b.gap-a.gap||a.n.localeCompare(b.n));
+ $('mHits').textContent=s.total.toLocaleString('vi-VN');$('mHot').textContent=hot[0]?.n||'—';$('mHotCount').textContent=(hot[0]?.count||0)+' lần xuất hiện';
+ $('mCold').textContent=cold[0]?.n||'—';$('mColdGap').textContent=(cold[0]?.gap||0)+' kỳ chưa xuất hiện';
+ barList('topHot',hot.slice(0,10).map(x=>({...x,pct:hot[0].count?x.count/hot[0].count*100:0})),'count');
+ barList('topCold',cold.slice(0,10).map(x=>({...x,pct:cold[0].gap?x.gap/cold[0].gap*100:0})),'gap');
+ $('freqRange').textContent=draws.length?draws[draws.length-1].date+' – '+draws[0].date:'';
+ $('numberGrid').innerHTML=sorted.map(x=>`<div class="numcell"><b>${x.n}</b><small>${x.count} lần</small></div>`).join('');
+ $('freqTable').innerHTML=[...hot].map(x=>`<tr><td><b>${x.n}</b></td><td class="num">${x.count}</td><td class="num">${s.total?(x.count/s.total*100).toFixed(2)+'%':'—'}</td><td><div class="bar"><i style="width:${hot[0].count?x.count/hot[0].count*100:0}%"></i></div></td></tr>`).join('');
+ $('ganTable').innerHTML=cold.map((x,i)=>`<tr><td>${i+1}</td><td><b>${x.n}</b></td><td class="num">${x.gap}</td><td>${x.last<0?'Chưa xuất hiện trong dữ liệu':draws[x.last].date}</td></tr>`).join('');
+ let h=Array(10).fill(0),t=Array(10).fill(0),dbl=Array(10).fill(0);
+ for(let d of draws)for(let n of normalize(d).nums){h[+n[0]]++;t[+n[1]]++;if(n[0]===n[1])dbl[+n[0]]++}
+ $('heads').innerHTML=h.map((v,i)=>`<div class="row" style="margin:8px 0"><b>Đầu ${i}</b><span class="push">${v}</span></div><div class="bar"><i style="width:${Math.max(1,v/Math.max(...h,1)*100)}%"></i></div>`).join('');
+ $('tails').innerHTML=t.map((v,i)=>`<div class="row" style="margin:8px 0"><b>Đuôi ${i}</b><span class="push">${v}</span></div><div class="bar"><i style="width:${Math.max(1,v/Math.max(...t,1)*100)}%"></i></div>`).join('');
+ $('doubles').innerHTML=dbl.map((v,i)=>`<span class="pill">${i}${i} · ${v}</span>`).join('');
+ let latest=draws[0];if(latest){const latestNorm=normalize(latest);const prizeRows=[['Đặc biệt','db',1],['Giải nhất','g1',1],['Giải nhì','g2',2],['Giải ba','g3',3],['Giải tư','g4',4],['Giải năm','g5',3],['Giải sáu','g6',3],['Giải bảy','g7',4]];const getVals=k=>{let v=latest.data?.[k];let a=Array.isArray(v)?v:(v==null?[]:[v]);return a.map(x=>String(firstPrize(x)).replace(/\D/g,'')).filter(Boolean)};const tableRows=prizeRows.map(([label,key,cols])=>{let vals=getVals(key);return `<tr><th>${label}</th><td colspan="${cols===1?4:4}"><div class="prize-values cols-${cols}">${vals.map(v=>`<span>${v}</span>`).join('')||'—'}</div></td></tr>`}).join('');$('latestResult').innerHTML=`<div class="row" style="margin-bottom:8px"><b>${latest.date}</b><span class="muted">${latest.day||''}</span></div><table class="lottery-result-table"><tbody>${tableRows}</tbody></table>`;const groups=Array.from({length:10},()=>[]);latestNorm.nums.forEach(n=>groups[Number(n[0])].push(n));$('latestLoto').innerHTML=groups.map((nums,i)=>`<div class="loto-head-row"><div class="loto-head-digit">${i}</div><div class="loto-head-numbers">${nums.length?nums.sort((a,b)=>Number(a)-Number(b)).map(n=>`<span>${n}</span>`).join(''):'<span class="muted">—</span>'}</div></div>`).join('')}else{$('latestResult').textContent='Chưa có dữ liệu';$('latestLoto').textContent='Chưa có dữ liệu';}
+ renderHistory();
+ if(typeof renderPrediction==='function')renderPrediction();
+}
+function renderHistory(){let q=($('searchDate')?.value||'').trim();$('historyTable').innerHTML=draws.filter(x=>!q||x.date.includes(q)).map(x=>{let n=normalize(x);return `<tr><td>${x.date}</td><td>${x.day||''}</td><td><b>${n.special||'—'}</b></td><td>${n.first||'—'}</td><td>${n.prizes.join(' · ')}</td></tr>`}).join('')||'<tr><td colspan="5" class="empty">Không có dữ liệu phù hợp</td></tr>'}
+function exportCSV(){let rows=[['Ngày','Thứ','Đặc biệt','Giải nhất','Toàn bộ kết quả'],...draws.map(x=>{let n=normalize(x);return [x.date,x.day,n.special,n.first,n.prizes.join(' ')]})];let csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='LOTUS_lich_su_XSMB.csv';a.click();URL.revokeObjectURL(a.href)}
+
+const PRED_STORE='lotus_predictions_v1';
+function todayKey(){let d=new Date();d.setDate(d.getDate()+1);return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function readPredictions(){try{return JSON.parse(localStorage.getItem(PRED_STORE)||'{}')}catch(e){return {}}}
+function savePredictions(p){localStorage.setItem(PRED_STORE,JSON.stringify(p))}
+function stableHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function seededRandom(seed){let x=seed||1;return ()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return (x>>>0)/4294967296}}
+function specialEnding(item,len){
+ // Dùng cùng bộ chuẩn hóa với bảng kết quả để tương thích DB dạng mảng, chuỗi hoặc object.
+ const digits=normalize(item).special;
+ return digits&&digits.length>=len?digits.slice(-len).padStart(len,'0'):null;
+}
+function rankEnding(len){
+ let counts=new Map();
+ for(const d of draws){const n=specialEnding(d,len);if(n)counts.set(n,(counts.get(n)||0)+1)}
+ return [...counts.entries()].map(([n,count])=>({n,count})).sort((a,b)=>b.count-a.count||a.n.localeCompare(b.n));
+}
+function makePrediction(){
+ if(!draws.length){$('predictionStatus').textContent='Chưa có dữ liệu lịch sử. Hãy cập nhật dữ liệu trước.';return}
+ const key=todayKey(),store=readPredictions();
+ if(store[key]&&store[key].groups?.four&&store[key].groups?.three&&store[key].groups?.de){$('predictionStatus').textContent='Dự đoán ngày mai đã được lưu.';renderPrediction();return}
+ const s=stats(), recentDraws=draws.slice(0,30);
+ const ranked=Array.from({length:100},(_,i)=>{
+  const count=s.counts[i],gap=s.last[i]<0?draws.length:s.last[i];
+  let recent=0;for(const d of recentDraws)for(const n of normalize(d).nums)if(+n===i)recent++;
+  return {n:String(i).padStart(2,'0'),score:count*.55+recent*1.2+Math.min(gap,30)*.12,count,recent,gap};
+ }).sort((a,b)=>b.score-a.score||a.n.localeCompare(b.n));
+ const rand=seededRandom(stableHash(key+'|LOTUS'));
+ function pickWeighted(pool){
+  if(!pool.length)return null;
+  const top=pool.slice(0,Math.min(20,pool.length));
+  const weights=top.map(x=>Math.max(.1,x.count+1));
+  const sum=weights.reduce((a,b)=>a+b,0);let r=rand()*sum,idx=0;
+  while(idx<weights.length-1&&r>=weights[idx]){r-=weights[idx];idx++}
+  return top[idx];
+ }
+ const e4=rankEnding(4),e3=rankEnding(3);
+ const four=pickWeighted(e4),three=pickWeighted(e3);
+ const dePool=ranked.slice(0,30).map(x=>({n:x.n,count:Math.max(0,x.score)}));
+ const de=pickWeighted(dePool);
+ // Four distinct two-digit candidates; xiên 1–4 are nested combinations from this shortlist.
+ const xiens=[],pool=ranked.slice(0,35).map(x=>({...x}));
+ while(xiens.length<4&&pool.length){
+  const x=pickWeighted(pool);if(!x)break;xiens.push(x.n);
+  const idx=pool.findIndex(y=>y.n===x.n);if(idx>=0)pool.splice(idx,1);
+ }
+ const groups={four:four?.n||null,three:three?.n||null,de:de?.n||null,xiens};
+ store[key]={date:key,groups,createdAt:new Date().toISOString(),basis:'Tần suất đuôi giải đặc biệt 365 ngày; tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện'};
+ savePredictions(store);renderPrediction();
+}
+function renderPrediction(){
+ const key=todayKey(),store=readPredictions(),p=store[key];
+ const predictionDateObj=new Date(key+'T00:00:00');const weekdayText=predictionDateObj.toLocaleDateString('vi-VN',{weekday:'long'});const dateText=predictionDateObj.toLocaleDateString('vi-VN');$('predictionDate').textContent=weekdayText.charAt(0).toUpperCase()+weekdayText.slice(1)+' · '+dateText;
+ const ids=['pred4','pred3','predDe','predX1','predX2','predX3','predX4'];
+ if(!p){ids.forEach(id=>$(id).textContent='—');$('predictionStatus').textContent=draws.length?'Chưa có dự đoán cho ngày mai':'Cần cập nhật dữ liệu trước';$('predictionBasis').textContent='Chưa có dự đoán.';$('predictionCheck').textContent='Chưa có dự đoán để đối chiếu.';}
+ else{
+  const g=p.groups||{four:null,three:null,de:null,xiens:p.numbers||[]};
+  $('pred4').textContent=g.four||'—';$('pred3').textContent=g.three||'—';$('predDe').textContent=g.de||'—';
+  for(let i=1;i<=4;i++)$('predX'+i).textContent=(g.xiens||[]).slice(0,i).join(' · ')||'—';
+  $('predictionStatus').textContent='Đã lưu và khóa lúc '+new Date(p.createdAt).toLocaleTimeString('vi-VN');
+  $('predictionBasis').innerHTML=`<div>Phạm vi: ${draws.length} kỳ lịch sử đang có</div><div>4 càng/3 càng: tần suất đuôi giải đặc biệt</div><div>Đề/xiên: tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện</div><div class="muted" style="margin-top:8px">Điểm xếp hạng không phải xác suất trúng.</div>`;
+  const targetDraw=draws.find(d=>dateObj(d.date).toDateString()===new Date(key+'T00:00:00').toDateString());
+  if(targetDraw){const sp=normalize(targetDraw).special;const a4=sp.slice(-4),a3=sp.slice(-3),a2=sp.slice(-2);$('predictionCheck').innerHTML=`<b>Kết quả ĐB: ${sp||'—'}</b><div class="muted">4 càng: ${g.four||'—'} ${g.four===a4?'✓ TRÚNG':'✕ Chưa trúng'} · 3 càng: ${g.three||'—'} ${g.three===a3?'✓ TRÚNG':'✕ Chưa trúng'} · Đề: ${g.de||'—'} ${g.de===a2?'✓ TRÚNG':'✕ Chưa trúng'}</div>`;}
+  else $('predictionCheck').textContent='Chưa có kết quả ngày mục tiêu trong dữ liệu đã tải.';
+ }
+ const records=Object.keys(store).sort().reverse().map(d=>{
+  const item=store[d],g=item.groups||{four:null,three:null,de:null,xiens:item.numbers||[]};
+  const draw=draws.find(x=>dateObj(x.date).toDateString()===new Date(d+'T00:00:00').toDateString());
+  if(!draw)return {d,g,draw:null};
+  const sp=normalize(draw).special;
+  const a4=sp.length>=4?sp.slice(-4):'—',a3=sp.length>=3?sp.slice(-3):'—',a2=sp.length>=2?sp.slice(-2):'—';
+  return {d,g,draw,sp,a4,a3,a2,h4:!!g.four&&g.four===a4,h3:!!g.three&&g.three===a3,hd:!!g.de&&g.de===a2};
+ });
+ const evaluated=records.filter(x=>x.draw);
+ const statsRate=(field)=>{const hits=evaluated.filter(x=>x[field]).length;return {hits,total:evaluated.length,pct:evaluated.length?(hits/evaluated.length*100):null}};
+ const r4=statsRate('h4'),r3=statsRate('h3'),rd=statsRate('hd');
+ const allHits=r4.hits+r3.hits+rd.hits,allTotal=evaluated.length*3,allPct=allTotal?allHits/allTotal*100:null;
+ const putRate=(id,r)=>{$(id).textContent=r.pct===null?'—':r.pct.toFixed(1)+'%';$(id+'Detail').textContent=`${r.hits}/${r.total} kỳ trúng`;};
+ putRate('rate4',r4);putRate('rate3',r3);putRate('rateDe',rd);
+ $('rateAll').textContent=allPct===null?'—':allPct.toFixed(1)+'%';$('rateAllDetail').textContent=`${allHits}/${allTotal} lượt dự đoán trúng · ${evaluated.length} ngày đã đối chiếu`;
+ const rows=records.map(x=>{
+  const target=x.d.split('-').reverse().join('/'),g=x.g;
+  if(!x.draw)return `<tr><td>${target}</td><td>${g.four||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.three||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.de||'—'}</td><td>—</td><td>Chờ KQ</td><td>${(g.xiens||[]).join(' · ')||'—'}</td><td>Chờ kết quả</td></tr>`;
+  const mark=v=>v?'<b style="color:#25835d">TRÚNG</b>':'<b style="color:#bd665b">KHÔNG TRÚNG</b>';
+  return `<tr><td>${target}</td><td><b>${g.four||'—'}</b></td><td>${x.a4}</td><td>${mark(x.h4)}</td><td><b>${g.three||'—'}</b></td><td>${x.a3}</td><td>${mark(x.h3)}</td><td><b>${g.de||'—'}</b></td><td>${x.a2}</td><td>${mark(x.hd)}</td><td>${(g.xiens||[]).join(' · ')||'—'}</td><td>Đã đối chiếu</td></tr>`;
+ }).join('');
+ $('predictionHistory').innerHTML=rows||'<tr><td colspan="12" class="empty">Chưa có lịch sử dự đoán</td></tr>';
+}
+
+
+// ===== LỊCH HOÀNG ĐẠO THEO TUỔI THÂN (tham khảo văn hóa dân gian) =====
+const ZODIAC=['Tý','Sửu','Dần','Mão','Thìn','Tỵ','Ngọ','Mùi','Thân','Dậu','Tuất','Hợi'];
+const HOANG_DAO_BY_LUNAR_MONTH={
+ 1:[0,1,4,5,7,10], 7:[0,1,4,5,7,10],
+ 2:[2,3,6,7,9,0], 8:[2,3,6,7,9,0],
+ 3:[4,5,8,9,11,2],9:[4,5,8,9,11,2],
+ 4:[6,7,10,11,1,4],10:[6,7,10,11,1,4],
+ 5:[8,9,0,1,3,6],11:[8,9,0,1,3,6],
+ 6:[10,11,2,3,5,8],12:[10,11,2,3,5,8]
+};
+function jdFromDate(dd,mm,yy){
+ const a=Math.floor((14-mm)/12), y=yy+4800-a, m=mm+12*a-3;
+ let jd=dd+Math.floor((153*m+2)/5)+365*y+Math.floor(y/4)-Math.floor(y/100)+Math.floor(y/400)-32045;
+ if(jd<2299161)jd=dd+Math.floor((153*m+2)/5)+365*y+Math.floor(y/4)-32083;
+ return jd;
+}
+function newMoon(k){
+ const T=k/1236.85,T2=T*T,T3=T2*T,dr=Math.PI/180;
+ let Jd1=2415020.75933+29.53058868*k+0.0001178*T2-0.000000155*T3;
+ Jd1+=0.00033*Math.sin((166.56+132.87*T-0.009173*T2)*dr);
+ const M=359.2242+29.10535608*k-0.0000333*T2-0.00000347*T3;
+ const Mpr=306.0253+385.81691806*k+0.0107306*T2+0.00001236*T3;
+ const F=21.2964+390.67050646*k-0.0016528*T2-0.00000239*T3;
+ let C1=(0.1734-0.000393*T)*Math.sin(M*dr)+0.0021*Math.sin(2*dr*M);
+ C1-=0.4068*Math.sin(Mpr*dr)+0.0161*Math.sin(2*dr*Mpr);
+ C1-=0.0004*Math.sin(3*dr*Mpr);
+ C1+=0.0104*Math.sin(2*dr*F)-0.0051*Math.sin(dr*(M+Mpr));
+ C1-=0.0074*Math.sin(dr*(M-Mpr))+0.0004*Math.sin(dr*(2*F+M));
+ C1-=0.0004*Math.sin(dr*(2*F-M))-0.0006*Math.sin(dr*(2*F+Mpr));
+ C1+=0.0010*Math.sin(dr*(2*F-Mpr))+0.0005*Math.sin(dr*(2*Mpr+M));
+ let deltat;
+ if(T<-11)deltat=0.001+0.000839*T+0.0002261*T*T-0.00000845*T*T*T-0.000000081*T*T*T*T;
+ else deltat=-0.000278+0.000265*T+0.000262*T*T;
+ return Jd1+C1-deltat;
+}
+function sunLongitude(jdn){
+ const T=(jdn-2451545.0)/36525,T2=T*T,dr=Math.PI/180;
+ const M=357.52910+35999.05030*T-0.0001559*T2-0.00000048*T*T2;
+ const L0=280.46645+36000.76983*T+0.0003032*T2;
+ let DL=(1.914600-0.004817*T-0.000014*T2)*Math.sin(dr*M);
+ DL+=(0.019993-0.000101*T)*Math.sin(2*dr*M)+0.000290*Math.sin(3*dr*M);
+ let L=(L0+DL)*dr;L-=Math.PI*2*Math.floor(L/(Math.PI*2));
+ return Math.floor(L/Math.PI*6);
+}
+function getNewMoonDay(k,tz){return Math.floor(newMoon(k)+0.5+tz/24)}
+function getSunLongitudeSector(day,tz){return sunLongitude(day-0.5-tz/24)}
+function getLunarMonth11(yy,tz){
+ const off=jdFromDate(31,12,yy)-2415021;
+ let k=Math.floor(off/29.530588853),nm=getNewMoonDay(k,tz);
+ if(getSunLongitudeSector(nm,tz)>=9)nm=getNewMoonDay(k-1,tz);
+ return nm;
+}
+function getLeapMonthOffset(a11,tz){
+ const k=Math.floor(0.5+(a11-2415021.076998695)/29.530588853);
+ let last=0,i=1,arc=getSunLongitudeSector(getNewMoonDay(k+i,tz),tz);
+ do{last=arc;i++;arc=getSunLongitudeSector(getNewMoonDay(k+i,tz),tz)}while(arc!==last&&i<14);
+ return i-1;
+}
+function solarToLunar(dd,mm,yy,tz=7){
+ const dayNumber=jdFromDate(dd,mm,yy),k=Math.floor((dayNumber-2415021.076998695)/29.530588853);
+ let monthStart=getNewMoonDay(k+1,tz);if(monthStart>dayNumber)monthStart=getNewMoonDay(k,tz);
+ let a11=getLunarMonth11(yy,tz),b11=a11, lunarYear;
+ if(a11>=monthStart){lunarYear=yy;a11=getLunarMonth11(yy-1,tz)}else{lunarYear=yy+1;b11=getLunarMonth11(yy+1,tz)}
+ const lunarDay=dayNumber-monthStart+1;
+ const diff=Math.floor((monthStart-a11)/29);
+ let lunarMonth=diff+11,leap=0;
+ if(b11-a11>365){
+  const leapDiff=getLeapMonthOffset(a11,tz);
+  if(diff>=leapDiff){lunarMonth=diff+10;if(diff===leapDiff)leap=1}
+ }
+ if(lunarMonth>12)lunarMonth-=12;
+ if(lunarMonth>=11&&diff<4)lunarYear--;
+ return {day:lunarDay,month:lunarMonth,year:lunarYear,leap};
+}
+function dayBranchIndex(date){
+ // Mốc 01/01/2000 là ngày Mậu Ngọ; tính địa chi ngày theo chu kỳ liên tục.
+ const jd=jdFromDate(date.getDate(),date.getMonth()+1,date.getFullYear());
+ const anchor=jdFromDate(1,1,2000);
+ return ((6+(jd-anchor))%12+12)%12;
+}
+function lunarDayInfo(date){
+ const lunar=solarToLunar(date.getDate(),date.getMonth()+1,date.getFullYear(),7);
+ const branch=dayBranchIndex(date),hoang=(HOANG_DAO_BY_LUNAR_MONTH[lunar.month]||[]).includes(branch);
+ const compatible=[0,4,5].includes(branch); // Tý, Thìn tam hợp; Tỵ lục hợp với Thân
+ const clash=branch===2; // Dần xung Thân
+ const harm=branch===11; // Hợi hại Thân theo một số hệ luận dân gian
+ let status,detail;
+ if(hoang&&compatible){status='Thuận theo lịch';detail='Ngày hoàng đạo và có địa chi tam hợp/lục hợp với tuổi Thân.'}
+ else if(clash){status='Nên hạn chế';detail='Ngày Dần lục xung với tuổi Thân theo Can Chi.'}
+ else if(!hoang){status='Ngày hắc đạo';detail='Ngày được xếp hắc đạo theo bảng lịch dân gian của tháng âm.'}
+ else{status='Hoàng đạo';detail='Ngày hoàng đạo; không thuộc nhóm tam hợp/lục hợp được ưu tiên cho tuổi Thân.'}
+ if(harm&&status!=='Nên hạn chế'){status='Cần cân nhắc';detail+=' Ngày Hợi được một số trường phái xem là tương hại với Thân.'}
+ return {...lunar,branch:ZODIAC[branch],hoang,compatible,clash,harm,status,detail};
+}
+let selectedCalendarDate=null;
+function renderLunarCalendar(){
+ const input=$('calendarMonth');if(!input)return;
+ if(!input.value){const now=new Date();input.value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')}
+ const [yy,mm]=input.value.split('-').map(Number);if(!yy||!mm)return;
+ const first=new Date(yy,mm-1,1),days=new Date(yy,mm,0).getDate(),offset=(first.getDay()+6)%7;
+ const names=['T2','T3','T4','T5','T6','T7','CN'];
+ let out=names.map(x=>`<div class="dayhead">${x}</div>`).join('');
+ for(let i=0;i<offset;i++)out+='<div class="daycell emptyday"></div>';
+ for(let d=1;d<=days;d++){
+  const date=new Date(yy,mm-1,d),info=lunarDayInfo(date),key=[yy,String(mm).padStart(2,'0'),String(d).padStart(2,'0')].join('-');
+  const cls=info.hoang&&info.compatible?'good':(info.clash||!info.hoang?'caution':'neutral');
+  const tag=info.hoang?(info.compatible?'✦ Hoàng đạo · hợp tuổi':'● Hoàng đạo'):(info.clash?'! Xung tuổi':'! Hắc đạo');
+  out+=`<button type="button" class="daycell ${cls} ${selectedCalendarDate===key?'selected':''}" onclick="selectCalendarDate('${key}')"><span class="daynum">${d}</span><span class="daytag">${tag}</span></button>`;
+ }
+ $('lunarCalendarGrid').innerHTML=out;
+ if(selectedCalendarDate){const [sy,sm,sd]=selectedCalendarDate.split('-').map(Number);if(sy===yy&&sm===mm)showCalendarDetail(new Date(sy,sm-1,sd))}
+}
+function selectCalendarDate(key){selectedCalendarDate=key;renderLunarCalendar();const [y,m,d]=key.split('-').map(Number);showCalendarDetail(new Date(y,m-1,d))}
+function showCalendarDetail(date){
+ const info=lunarDayInfo(date),weekday=date.toLocaleDateString('vi-VN',{weekday:'long'});
+ const lunarText=`${info.day}/${info.month}/${info.year}${info.leap?' (nhuận)':''}`;
+ const cls=info.hoang&&info.compatible?'good':(info.clash||!info.hoang?'caution':'neutral');
+ $('lunarCalendarDetail').innerHTML=`<div class="calendar-detail"><div><div class="muted">${weekday} · ${date.toLocaleDateString('vi-VN')}</div><div class="metric">${info.hoang?'NGÀY HOÀNG ĐẠO':'NGÀY HẮC ĐẠO'}</div><div class="muted">Âm lịch: ${lunarText}</div><p><b>Địa chi ngày:</b> ${info.branch}</p></div><div><b>Phân tích theo lịch</b><p class="muted">${info.detail}</p><div class="pills"><span class="pill">${info.hoang?'Hoàng đạo':'Hắc đạo'}</span><span class="pill">${info.compatible?'Tam hợp / lục hợp với Thân':info.clash?'Lục xung với Thân':info.harm?'Tương hại với Thân':'Không thuộc nhóm hợp tuổi ưu tiên'}</span></div><p class="muted">Căn cứ: tháng âm lịch ${info.month}${info.leap?' nhuận':''} kết hợp địa chi ngày ${info.branch}. Hoàng đạo/hắc đạo là kết quả tra bảng tháng âm; hợp tuổi là nhận xét riêng theo Can Chi.</p></div></div>`;
+}
+function initLunarCalendar(){
+ const input=$('calendarMonth');if(!input)return;
+ const now=new Date();input.value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+ input.addEventListener('change',()=>{selectedCalendarDate=null;renderLunarCalendar();$('lunarCalendarDetail').textContent='Chọn một ngày trên lịch để xem phân tích.'});
+ renderLunarCalendar();
+}
+
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main section[id^=tab-]').forEach(x=>x.classList.toggle('hide',x.id!=='tab-'+b.dataset.tab))}));
+initLunarCalendar();load();render();if(!draws.length)syncData();else{$('syncStatus').textContent='Đã tải dữ liệu đã lưu · '+draws.length+' kỳ';ensureTomorrowPrediction()}setInterval(syncData,15*60*1000);
+function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(!p?.groups?.four||!p?.groups?.three||!p?.groups?.de)makePrediction()}
+
+</script></body></html>
