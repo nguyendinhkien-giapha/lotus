@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123d2c"><title>LOTUS V1.28</title>
+<meta name="theme-color" content="#123d2c"><title>LOTUS V1.29</title>
 <style>
 :root{--bg:#091b20;--panel:#102b3a;--panel2:#173c3b;--line:#285347;--gold:#b9a16a;--gold2:#d8c99e;--txt:#edf6f0;--muted:#a8c0b4;--green:#70a987;--red:#d98b82}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#08191e,#102b3a 55%,#123b32);color:var(--txt);font:14px/1.5 Arial,sans-serif}
@@ -480,59 +480,248 @@ nav button{
 
 
 
-/* LOTUS V1.28 – tối ưu trải nghiệm điện thoại */
-@media (max-width: 700px) {
-  html, body { width:100%; max-width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; }
-  body { font-size:14px; background-attachment:scroll; }
-  header { position:sticky; top:0; z-index:20; display:flex; flex-wrap:wrap; gap:8px; padding:9px 12px !important; }
-  .brandlock { gap:8px; }
-  .lotus-mark { width:38px !important; height:36px !important; }
-  .brand { font-size:25px !important; letter-spacing:2px !important; }
-  header .topline { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; }
-  header #syncBtn { min-height:40px; padding:8px 12px; font-size:12px; }
-  header .status { display:block !important; font-size:11px; }
-  .wrap { padding:10px !important; }
-  nav { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:7px !important; margin:10px 0 14px !important; padding:0 !important; overflow:visible !important; }
-  nav button { width:100% !important; min-width:0 !important; min-height:46px !important; height:auto !important; padding:8px 7px !important; white-space:normal !important; overflow-wrap:anywhere; text-align:center; font-size:12px !important; line-height:1.25 !important; border-radius:11px !important; }
-  .section { margin:13px 0; }
-  .section h2, .card h2 { font-size:15px !important; line-height:1.35; }
-  .card { min-width:0; padding:11px !important; border-radius:13px; }
-  .grid, .cards, .stats-grid { grid-template-columns:minmax(0,1fr) !important; gap:9px !important; }
-  .row { align-items:stretch; gap:8px; }
-  .row > input, .row > select { flex:1 1 100%; min-width:0; width:100%; }
-  input, select, button, .btn { min-height:42px; max-width:100%; font-size:14px; }
-  input, select { min-width:0; width:100%; }
-  button, .btn { padding:9px 12px; }
-  .metric { font-size:24px; }
-  .tablewrap { width:100%; max-width:100%; overflow-x:auto !important; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-  table { min-width:560px; font-size:12px; }
-  th, td { padding:8px 7px !important; white-space:nowrap; }
-  .lottery-result-table { min-width:0 !important; }
-  .lottery-result-table th { width:58px !important; }
-  .lottery-result-table th, .lottery-result-table td { padding:6px 3px !important; font-size:11px !important; white-space:normal; overflow-wrap:anywhere; }
-  .lottery-result-table .prize-values { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:3px; }
-  .lottery-result-table .prize-values span { font-size:11px !important; white-space:nowrap; }
-  .numgrid { grid-template-columns:repeat(5,minmax(0,1fr)) !important; gap:5px; }
-  .numcell { padding:8px 2px; min-width:0; }
-  .numcell b { font-size:15px; }
-  .latest-layout { grid-template-columns:minmax(0,1fr) !important; gap:9px; }
-  .calendar-tools { align-items:stretch; }
-  .calendar-tools input { min-width:0; width:100%; }
-  .daygrid { grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; }
-  .dayhead { padding:5px 0; font-size:10px; }
-  .daycell { min-width:0; min-height:58px; padding:4px 2px; border-radius:7px; }
-  .daycell .daynum { font-size:13px; }
-  .daycell .daytag { font-size:8px; overflow-wrap:anywhere; }
-  .calendar-detail { grid-template-columns:minmax(0,1fr) !important; }
-  footer { padding:16px 4px; }
+/* LOTUS V1.29 – mobile-first overrides (must remain last in stylesheet) */
+@media screen and (max-width: 700px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+    background-attachment: scroll !important;
+    font-size: 14px !important;
+  }
+  header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+    width: 100% !important;
+    min-height: 58px !important;
+    padding: 7px 11px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+  }
+  .brandlock { min-width: 0 !important; flex: 0 1 auto !important; gap: 7px !important; }
+  .lotus-mark { width: 37px !important; height: 34px !important; }
+  .brandcopy { min-width: 0 !important; }
+  .brand { font-size: 24px !important; letter-spacing: 2px !important; }
+  .topline {
+    min-width: 0 !important;
+    flex: 0 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 2px !important;
+  }
+  header .status {
+    display: block !important;
+    max-width: 155px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+  }
+  #syncBtn {
+    min-height: 34px !important;
+    padding: 6px 9px !important;
+    border-radius: 8px !important;
+    font-size: 10px !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+  }
+  .wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 10px 16px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Navigation becomes a swipeable app dock; all 7 tabs remain accessible. */
+  main > nav {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 100 !important;
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 5px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: calc(66px + env(safe-area-inset-bottom)) !important;
+    margin: 0 !important;
+    padding: 6px 7px calc(6px + env(safe-area-inset-bottom)) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    background: rgba(5, 35, 24, .97) !important;
+    border-top: 1px solid rgba(220, 187, 112, .45) !important;
+    box-shadow: 0 -5px 22px rgba(0,0,0,.22) !important;
+    backdrop-filter: blur(16px);
+  }
+  main > nav::-webkit-scrollbar { display: none !important; }
+  main > nav button {
+    flex: 0 0 94px !important;
+    width: 94px !important;
+    min-width: 94px !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    margin: 0 !important;
+    padding: 6px 5px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: center !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+  main > nav button.active {
+    background: linear-gradient(135deg,#f0d58c,#b88732) !important;
+    color: #26351f !important;
+  }
+
+  .section { margin: 11px 0 !important; }
+  .section h2, h2 { font-size: 16px !important; line-height: 1.35 !important; }
+  .card {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 12px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 13px !important;
+    backdrop-filter: none !important;
+  }
+  .grid {
+    grid-template-columns: minmax(0,1fr) !important;
+    gap: 9px !important;
+    min-width: 0 !important;
+  }
+  .grid > .card { min-width: 0 !important; }
+  .metric { font-size: 25px !important; line-height: 1.2 !important; }
+  .row {
+    min-width: 0 !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 7px !important;
+  }
+  .row > input, .row > select {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  input, select {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    font-size: 14px !important;
+  }
+  button, .btn {
+    min-height: 42px !important;
+    max-width: 100% !important;
+    font-size: 13px !important;
+    padding: 9px 11px !important;
+  }
+  .push { margin-left: auto !important; }
+
+  /* Data tables scroll inside their own card, never across the page. */
+  .tablewrap {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 9px !important;
+  }
+  .tablewrap table {
+    display: table !important;
+    width: max-content !important;
+    min-width: 100% !important;
+    max-width: none !important;
+    font-size: 11px !important;
+  }
+  .tablewrap th, .tablewrap td {
+    white-space: nowrap !important;
+    padding: 8px 7px !important;
+    font-size: 11px !important;
+  }
+  .lottery-result-table {
+    width: 100% !important;
+    min-width: 0 !important;
+    table-layout: fixed !important;
+  }
+  .lottery-result-table th {
+    width: 58px !important;
+    white-space: normal !important;
+    font-size: 10px !important;
+    padding: 6px 3px !important;
+  }
+  .lottery-result-table td {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    font-size: 12px !important;
+    padding: 6px 3px !important;
+  }
+  .lottery-result-table .prize-values {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 3px !important;
+  }
+  .lottery-result-table .prize-values span {
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  #numberGrid, .numgrid {
+    grid-template-columns: repeat(5,minmax(0,1fr)) !important;
+    gap: 5px !important;
+  }
+  .numcell {
+    min-width: 0 !important;
+    padding: 8px 2px !important;
+    border-radius: 8px !important;
+  }
+  .numcell b { font-size: 15px !important; }
+  .numcell small { font-size: 9px !important; }
+
+  .latest-layout { grid-template-columns: minmax(0,1fr) !important; gap: 9px !important; }
+  .latest-layout > .card { width: 100% !important; }
+  .loto-head-row { grid-template-columns: 32px minmax(0,1fr) !important; gap: 6px !important; padding: 7px !important; }
+  .loto-head-numbers { gap: 4px 6px !important; font-size: 12px !important; }
+  .calendar-tools { display: flex !important; flex-direction: column !important; align-items: stretch !important; }
+  .calendar-tools input { width: 100% !important; min-width: 0 !important; }
+  .daygrid { grid-template-columns: repeat(7,minmax(0,1fr)) !important; gap: 3px !important; }
+  .dayhead { padding: 5px 1px !important; font-size: 9px !important; }
+  .daycell { min-width: 0 !important; min-height: 57px !important; padding: 4px 2px !important; border-radius: 7px !important; }
+  .daycell .daynum { font-size: 13px !important; }
+  .daycell .daytag { font-size: 8px !important; line-height: 1.15 !important; }
+  .calendar-detail { grid-template-columns: minmax(0,1fr) !important; gap: 8px !important; }
+  footer { padding: 12px 4px !important; }
 }
-@media (max-width:380px) {
-  .wrap { padding:8px !important; }
-  nav { gap:6px !important; }
-  nav button { min-height:44px !important; padding:7px 4px !important; font-size:11px !important; }
-  .brand { font-size:23px !important; }
-  header #syncBtn { font-size:11px; padding:7px 9px; }
-  .daycell { min-height:52px; }
+@media screen and (max-width: 380px) {
+  header { padding-left: 8px !important; padding-right: 8px !important; }
+  .lotus-mark { width: 32px !important; height: 30px !important; }
+  .brand { font-size: 21px !important; letter-spacing: 1.5px !important; }
+  #syncBtn { font-size: 9px !important; padding: 5px 7px !important; }
+  main > nav button { flex-basis: 86px !important; width: 86px !important; min-width: 86px !important; }
+  .wrap { padding-left: 8px !important; padding-right: 8px !important; }
 }
 
 </style></head>
