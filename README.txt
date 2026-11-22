@@ -1,2 +1,8 @@
-LOTUS V1.27
-Đã căn giữa tiêu đề, số dự đoán và dòng mô tả trong ba thẻ 4 càng đề, 3 càng đề và Đề theo ảnh người dùng gửi. Chỉ thay đổi căn chỉnh giao diện; giữ nguyên thuật toán, dữ liệu và các chức năng khác từ bản V1.26 được cung cấp.
+LOTUS V1.28 – TỐI ƯU GIAO DIỆN ĐIỆN THOẠI
+- Giữ nguyên logic và chức năng V1.27.
+- Menu chuyển thành lưới 2 cột dễ bấm, tự xuống dòng.
+- Thu gọn header, logo và nút cập nhật dữ liệu.
+- Thẻ nội dung và biểu mẫu xếp một cột trên điện thoại.
+- Bảng dữ liệu có vùng cuộn ngang riêng; lịch và bảng kết quả co giãn.
+- Bộ số 00–99 hiển thị 5 cột để dễ đọc trên màn hình nhỏ.
+Mở index.html hoặc tải thư mục LOTUS_V1.28 lên hosting/GitHub Pages.

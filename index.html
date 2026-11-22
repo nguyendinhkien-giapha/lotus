@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123d2c"><title>LOTUS</title>
+<meta name="theme-color" content="#123d2c"><title>LOTUS V1.28</title>
 <style>
 :root{--bg:#091b20;--panel:#102b3a;--panel2:#173c3b;--line:#285347;--gold:#b9a16a;--gold2:#d8c99e;--txt:#edf6f0;--muted:#a8c0b4;--green:#70a987;--red:#d98b82}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#08191e,#102b3a 55%,#123b32);color:var(--txt);font:14px/1.5 Arial,sans-serif}
@@ -477,6 +477,63 @@ nav button{
 }
 #tab-prediction > .card > .grid.section > .card h2{margin-left:auto;margin-right:auto;}
 #tab-prediction > .card > .grid.section > .card .metric{margin-left:auto;margin-right:auto;}
+
+
+
+/* LOTUS V1.28 – tối ưu trải nghiệm điện thoại */
+@media (max-width: 700px) {
+  html, body { width:100%; max-width:100%; overflow-x:hidden; -webkit-text-size-adjust:100%; }
+  body { font-size:14px; background-attachment:scroll; }
+  header { position:sticky; top:0; z-index:20; display:flex; flex-wrap:wrap; gap:8px; padding:9px 12px !important; }
+  .brandlock { gap:8px; }
+  .lotus-mark { width:38px !important; height:36px !important; }
+  .brand { font-size:25px !important; letter-spacing:2px !important; }
+  header .topline { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  header #syncBtn { min-height:40px; padding:8px 12px; font-size:12px; }
+  header .status { display:block !important; font-size:11px; }
+  .wrap { padding:10px !important; }
+  nav { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:7px !important; margin:10px 0 14px !important; padding:0 !important; overflow:visible !important; }
+  nav button { width:100% !important; min-width:0 !important; min-height:46px !important; height:auto !important; padding:8px 7px !important; white-space:normal !important; overflow-wrap:anywhere; text-align:center; font-size:12px !important; line-height:1.25 !important; border-radius:11px !important; }
+  .section { margin:13px 0; }
+  .section h2, .card h2 { font-size:15px !important; line-height:1.35; }
+  .card { min-width:0; padding:11px !important; border-radius:13px; }
+  .grid, .cards, .stats-grid { grid-template-columns:minmax(0,1fr) !important; gap:9px !important; }
+  .row { align-items:stretch; gap:8px; }
+  .row > input, .row > select { flex:1 1 100%; min-width:0; width:100%; }
+  input, select, button, .btn { min-height:42px; max-width:100%; font-size:14px; }
+  input, select { min-width:0; width:100%; }
+  button, .btn { padding:9px 12px; }
+  .metric { font-size:24px; }
+  .tablewrap { width:100%; max-width:100%; overflow-x:auto !important; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  table { min-width:560px; font-size:12px; }
+  th, td { padding:8px 7px !important; white-space:nowrap; }
+  .lottery-result-table { min-width:0 !important; }
+  .lottery-result-table th { width:58px !important; }
+  .lottery-result-table th, .lottery-result-table td { padding:6px 3px !important; font-size:11px !important; white-space:normal; overflow-wrap:anywhere; }
+  .lottery-result-table .prize-values { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:3px; }
+  .lottery-result-table .prize-values span { font-size:11px !important; white-space:nowrap; }
+  .numgrid { grid-template-columns:repeat(5,minmax(0,1fr)) !important; gap:5px; }
+  .numcell { padding:8px 2px; min-width:0; }
+  .numcell b { font-size:15px; }
+  .latest-layout { grid-template-columns:minmax(0,1fr) !important; gap:9px; }
+  .calendar-tools { align-items:stretch; }
+  .calendar-tools input { min-width:0; width:100%; }
+  .daygrid { grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; }
+  .dayhead { padding:5px 0; font-size:10px; }
+  .daycell { min-width:0; min-height:58px; padding:4px 2px; border-radius:7px; }
+  .daycell .daynum { font-size:13px; }
+  .daycell .daytag { font-size:8px; overflow-wrap:anywhere; }
+  .calendar-detail { grid-template-columns:minmax(0,1fr) !important; }
+  footer { padding:16px 4px; }
+}
+@media (max-width:380px) {
+  .wrap { padding:8px !important; }
+  nav { gap:6px !important; }
+  nav button { min-height:44px !important; padding:7px 4px !important; font-size:11px !important; }
+  .brand { font-size:23px !important; }
+  header #syncBtn { font-size:11px; padding:7px 9px; }
+  .daycell { min-height:52px; }
+}
 
 </style></head>
 <body>
