@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123d2c"><title>LOTUS V1.30</title>
+<meta name="theme-color" content="#123d2c"><title>LOTUS V1.33</title>
 <style>
 :root{--bg:#091b20;--panel:#102b3a;--panel2:#173c3b;--line:#285347;--gold:#b9a16a;--gold2:#d8c99e;--txt:#edf6f0;--muted:#a8c0b4;--green:#70a987;--red:#d98b82}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#08191e,#102b3a 55%,#123b32);color:var(--txt);font:14px/1.5 Arial,sans-serif}
@@ -539,6 +539,170 @@ nav button{
   }
 }
 
+
+
+/* LOTUS V1.31 – menu mobile gọn 4 mục/hàng, nhãn rút gọn */
+@media screen and (max-width: 700px) {
+  main.wrap > nav {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: 7px !important;
+    width: 100% !important;
+    margin: 10px 0 14px !important;
+    padding: 0 !important;
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  main.wrap > nav > button {
+    grid-column: span 3 !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 46px !important;
+    height: 46px !important;
+    margin: 0 !important;
+    padding: 5px 3px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.15 !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+  /* Center the last three items as a balanced second row. */
+  main.wrap > nav > button:nth-child(5) { grid-column: 2 / span 3 !important; }
+  main.wrap > nav > button:nth-child(6) { grid-column: 5 / span 3 !important; }
+  main.wrap > nav > button:nth-child(7) { grid-column: 8 / span 3 !important; }
+}
+@media screen and (max-width: 380px) {
+  main.wrap > nav { gap: 5px !important; margin: 8px 0 12px !important; }
+  main.wrap > nav > button {
+    min-height: 43px !important;
+    height: 43px !important;
+    padding: 4px 2px !important;
+    font-size: 9.5px !important;
+  }
+}
+
+
+
+/* LOTUS V1.32 – menu điện thoại: 3 nút hàng trên, 4 nút hàng dưới */
+@media screen and (max-width: 700px) {
+  main.wrap > nav {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: 7px !important;
+    width: 100% !important;
+    margin: 10px 0 14px !important;
+    padding: 0 !important;
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  main.wrap > nav > button {
+    display: flex !important;
+    grid-column: span 3 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 46px !important;
+    height: 46px !important;
+    margin: 0 !important;
+    padding: 5px 3px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    line-height: 1.15 !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+  /* First 3 buttons occupy 4/12 columns each; remaining 4 occupy 3/12 each. */
+  main.wrap > nav > button:nth-child(-n+3) {
+    grid-column: span 4 !important;
+  }
+  main.wrap > nav > button:nth-child(n+4) {
+    grid-column: span 3 !important;
+  }
+}
+@media screen and (max-width: 380px) {
+  main.wrap > nav { gap: 5px !important; margin: 8px 0 12px !important; }
+  main.wrap > nav > button {
+    min-height: 43px !important;
+    height: 43px !important;
+    padding: 4px 2px !important;
+    font-size: 9.5px !important;
+  }
+}
+
+
+
+/* LOTUS V1.33 – 4 thẻ thống kê tổng quan hiển thị 2 cột x 2 hàng trên điện thoại */
+@media screen and (max-width: 700px) {
+  #tab-home > .grid:first-of-type {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: 9px !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+  #tab-home > .grid:first-of-type > .card {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 126px !important;
+    padding: 11px 10px !important;
+    margin: 0 !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+  }
+  #tab-home > .grid:first-of-type > .card .muted {
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    overflow-wrap: anywhere !important;
+  }
+  #tab-home > .grid:first-of-type > .card .metric {
+    font-size: 25px !important;
+    line-height: 1.15 !important;
+    margin: 2px 0 !important;
+  }
+  #tab-home > .grid:first-of-type > .card small {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+}
+@media screen and (max-width: 380px) {
+  #tab-home > .grid:first-of-type { gap: 7px !important; }
+  #tab-home > .grid:first-of-type > .card {
+    min-height: 116px !important;
+    padding: 9px 8px !important;
+  }
+  #tab-home > .grid:first-of-type > .card .muted { font-size: 11px !important; }
+  #tab-home > .grid:first-of-type > .card .metric { font-size: 23px !important; }
+}
+
 </style></head>
 <body>
 <header><div class="brandlock"><svg class="lotus-mark" viewBox="0 0 160 130" role="img" aria-label="Biểu tượng hoa sen LOTUS" xmlns="http://www.w3.org/2000/svg">
@@ -567,14 +731,14 @@ nav button{
 </svg><div class="brandcopy"><div class="brand">LOTUS</div></div></div><div class="topline"><span id="syncStatus" class="status">Chưa đồng bộ</span><button id="syncBtn" onclick="syncData()">↻ Cập nhật dữ liệu</button></div></header>
 <main class="wrap">
 <nav>
-<button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất 00–99</button><button data-tab="gan">Số lâu chưa xuất hiện</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử kết quả</button><button data-tab="calendar">Ngày hoàng đạo</button><button data-tab="prediction">Dự đoán ngày mai</button>
+<button class="active" data-tab="home">Tổng quan</button><button data-tab="frequency">Tần suất</button><button data-tab="gan">Số gan</button><button data-tab="pairs">Đầu – đuôi</button><button data-tab="history">Lịch sử</button><button data-tab="calendar">Hoàng đạo</button><button data-tab="prediction">Dự đoán</button>
 </nav>
 <section id="tab-home">
 <div class="grid">
 <div class="card"><div class="muted">Số kỳ đã tải</div><div class="metric" id="mDraws">0</div><small class="muted">Trong khoảng dữ liệu</small></div>
 <div class="card"><div class="muted">Tổng lượt 2 số</div><div class="metric" id="mHits">0</div><small class="muted">Tất cả giải</small></div>
 <div class="card"><div class="muted">Số xuất hiện nhiều nhất</div><div class="metric" id="mHot">—</div><small class="muted" id="mHotCount">Chưa có dữ liệu</small></div>
-<div class="card"><div class="muted">Số lâu chưa xuất hiện</div><div class="metric" id="mCold">—</div><small class="muted" id="mColdGap">Chưa có dữ liệu</small></div>
+<div class="card"><div class="muted">Số gan</div><div class="metric" id="mCold">—</div><small class="muted" id="mColdGap">Chưa có dữ liệu</small></div>
 </div>
 <div class="grid section" style="grid-template-columns:repeat(2,minmax(0,1fr))">
 <div class="card"><h2>10 số có tần suất cao</h2><div id="topHot"></div></div>
@@ -621,7 +785,7 @@ nav button{
 
 <section id="tab-prediction" class="hide">
 <div class="card section">
- <div class="row"><h2>Dự đoán ngày mai</h2><span class="push pill" id="predictionDate"></span></div>
+ <div class="row"><h2>Dự đoán</h2><span class="push pill" id="predictionDate"></span></div>
  <p class="muted">Phân tích dữ liệu lịch sử để tạo các nhóm 4 càng đề, 3 càng đề, đề và xiên 1–4. Đây là thống kê tham khảo, không bảo đảm kết quả.</p>
  <div class="grid section" style="grid-template-columns:repeat(3,minmax(0,1fr))">
   <div class="card"><h2>4 càng đề</h2><div id="pred4" class="metric">—</div><small class="muted">4 chữ số cuối giải đặc biệt</small></div>
@@ -648,7 +812,7 @@ nav button{
 </div>
 <div class="card section"><h2>Phân tích trúng – đối chiếu dự đoán với kết quả thực tế</h2><p class="muted">Chỉ tính tỷ lệ trên những ngày đã có kết quả xổ số. 4 càng, 3 càng và Đề được so với đuôi giải đặc biệt; tỷ lệ là thống kê quá khứ, không phải xác suất kỳ tiếp theo.</p><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Dự đoán 4 càng</th><th>KQ 4 càng</th><th>Đối chiếu</th><th>Dự đoán 3 càng</th><th>KQ 3 càng</th><th>Đối chiếu</th><th>Dự đoán Đề</th><th>KQ Đề</th><th>Đối chiếu</th><th>Xiên 1–4</th><th>Trạng thái</th></tr></thead><tbody id="predictionHistory"><tr><td colspan="12" class="empty">Chưa có lịch sử dự đoán</td></tr></tbody></table></div></div>
 </section>
-<section id="tab-history" class="hide"><div class="row section"><h2>Lịch sử kết quả</h2><input id="searchDate" placeholder="Tìm ngày (dd/mm/yyyy)" oninput="renderHistory()"><button class="secondary push" onclick="exportCSV()">Xuất CSV</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Thứ</th><th>Đặc biệt</th><th>Giải nhất</th><th>Toàn bộ kết quả</th></tr></thead><tbody id="historyTable"></tbody></table></div></div></section>
+<section id="tab-history" class="hide"><div class="row section"><h2>Lịch sử</h2><input id="searchDate" placeholder="Tìm ngày (dd/mm/yyyy)" oninput="renderHistory()"><button class="secondary push" onclick="exportCSV()">Xuất CSV</button></div><div class="card"><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Thứ</th><th>Đặc biệt</th><th>Giải nhất</th><th>Toàn bộ kết quả</th></tr></thead><tbody id="historyTable"></tbody></table></div></div></section>
 <footer>Nguồn dữ liệu tham khảo: Xổ Số VN API · Dữ liệu bên thứ ba, vui lòng đối chiếu nguồn công bố chính thức.</footer>
 </main>
 <script>
