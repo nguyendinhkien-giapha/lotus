@@ -148,7 +148,7 @@ footer{color:#b6c9b4}
 .calendar-tools input{min-width:170px}
 .calendar-legend{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 .calendar-legend .pill{display:inline-flex;align-items:center;gap:6px}
-.daygrid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px}
+.daygrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
 .dayhead{text-align:center;color:#e8d39a;font-weight:700;padding:8px 2px;background:rgba(27,83,59,.7);border:1px solid rgba(220,187,112,.22);border-radius:8px}
 .daycell{min-height:92px;padding:8px 6px;border:1px solid rgba(220,187,112,.25);border-radius:10px;background:linear-gradient(145deg,rgba(36,94,65,.72),rgba(10,48,34,.82));cursor:pointer;text-align:left;color:var(--txt)}
 .daycell:hover,.daycell.selected{outline:2px solid #e2c274;outline-offset:1px}
@@ -929,16 +929,24 @@ html, body { max-width:100%; overflow-x:hidden; }
  <div class="card"><div class="muted">Tỷ lệ trúng 4 càng</div><div class="metric" id="rate4">—</div><small class="muted" id="rate4Detail">Chưa có kỳ đối chiếu</small></div>
  <div class="card"><div class="muted">Tỷ lệ trúng 3 càng</div><div class="metric" id="rate3">—</div><small class="muted" id="rate3Detail">Chưa có kỳ đối chiếu</small></div>
  <div class="card"><div class="muted">Tỷ lệ trúng Đề</div><div class="metric" id="rateDe">—</div><small class="muted" id="rateDeDetail">Chưa có kỳ đối chiếu</small></div>
+ <div class="card"><div class="muted">Tỷ lệ trúng Nhất to</div><div class="metric" id="rateFirst">—</div><small class="muted" id="rateFirstDetail">Chưa có kỳ đối chiếu</small></div>
  <div class="card"><div class="muted">Tỷ lệ chung</div><div class="metric" id="rateAll">—</div><small class="muted" id="rateAllDetail">Trên các dự đoán đã có kết quả</small></div>
 </div>
-<div class="card section"><h2>Phân tích trúng – đối chiếu dự đoán với kết quả thực tế</h2><p class="muted">Chỉ tính tỷ lệ trên những ngày đã có kết quả xổ số. 4 càng, 3 càng và Đề được so với đuôi giải đặc biệt; tỷ lệ là thống kê quá khứ, không phải xác suất kỳ tiếp theo.</p><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Dự đoán 4 càng</th><th>KQ 4 càng</th><th>Đối chiếu</th><th>Dự đoán 3 càng</th><th>KQ 3 càng</th><th>Đối chiếu</th><th>Dự đoán Đề</th><th>KQ Đề</th><th>Đối chiếu</th><th>Xiên 1–4</th><th>Trạng thái</th></tr></thead><tbody id="predictionHistory"><tr><td colspan="12" class="empty">Chưa có lịch sử dự đoán</td></tr></tbody></table></div></div>
+<div class="card section"><h2>Phân tích trúng – đối chiếu dự đoán với kết quả thực tế</h2><p class="muted">Chỉ tính tỷ lệ trên những ngày đã có kết quả xổ số. 4 càng, 3 càng và Đề được so với đuôi giải đặc biệt; Nhất to được so với 2 số cuối giải nhất. Tỷ lệ là thống kê quá khứ, không phải xác suất kỳ tiếp theo.</p><div class="tablewrap"><table><thead><tr><th>Ngày</th><th>Dự đoán 4 càng</th><th>KQ 4 càng</th><th>Đối chiếu</th><th>Dự đoán 3 càng</th><th>KQ 3 càng</th><th>Đối chiếu</th><th>Dự đoán Đề</th><th>KQ Đề</th><th>Đối chiếu</th><th>Dự đoán Nhất to</th><th>KQ Nhất to</th><th>Đối chiếu</th><th>Xiên 1–4</th><th>Trạng thái</th></tr></thead><tbody id="predictionHistory"><tr><td colspan="15" class="empty">Chưa có lịch sử dự đoán</td></tr></tbody></table></div></div>
 </section>
 <section id="tab-filter" class="hide">
  <div class="card section">
   <h2>Lọc số – số ngày chưa xuất hiện</h2>
-  <p class="muted">Nhập các số có 2 chữ số, cách nhau bằng dấu phẩy. LOTUS sẽ dò toàn bộ kết quả xổ số thực tế đã tải (tất cả các giải), tìm ngày xuất hiện gần nhất và tính số ngày đã vắng mặt tính đến kỳ mới nhất trong dữ liệu.</p>
+  <p class="muted">Chọn loại số cần lọc: Lô, Đề, Nhất to, 3 càng hoặc 4 càng.</p>
   <div class="row">
-   <input id="filterNumbers" type="text" placeholder="Ví dụ: 64, 17, 97, 46" aria-label="Nhập các số cần lọc" style="flex:1;min-width:240px">
+   <select id="filterType" aria-label="Loại số cần lọc" style="min-width:150px">
+    <option value="lo">Lọc Lô</option>
+    <option value="de">Lọc Đề</option>
+    <option value="nhatto">Lọc Nhất to</option>
+    <option value="3cang">Lọc 3 càng</option>
+    <option value="4cang">Lọc 4 càng</option>
+   </select>
+   <input id="filterNumbers" type="text" placeholder="Ví dụ: 11.2233,44 hoặc 11223344" aria-label="Nhập các số cần lọc" style="flex:1;min-width:240px">
    <button id="filterRun" type="button" onclick="runNumberFilter()">Lọc số</button>
    <button class="secondary" type="button" onclick="clearNumberFilter()">Xóa</button>
   </div>
@@ -963,6 +971,13 @@ function normalize(item){let p=allPrizes(item);return {date:item.date||'',day:it
 function save(){try{localStorage.setItem(STORE,JSON.stringify(draws))}catch(e){}}
 function load(){try{let x=JSON.parse(localStorage.getItem(STORE)||'[]');if(Array.isArray(x))draws=x}catch(e){}}
 async function getJson(url){let r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);let j=await r.json();if(j.success===false)throw Error(j.error||'Nguồn dữ liệu báo lỗi');return j.data??[]}
+function formatVietnameseDateTime(value){
+ const d=new Date(value);
+ const weekdays=['Chủ nhật','thứ 2','thứ 3','thứ 4','thứ 5','thứ 6','thứ 7'];
+ const time=d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+ const date=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+ return time+' '+weekdays[d.getDay()]+' ngày '+date;
+}
 async function syncData(){
  const b=$('syncBtn');b.disabled=true;$('syncStatus').textContent='Đang kết nối nguồn dữ liệu…';
  try{
@@ -979,7 +994,7 @@ async function syncData(){
    if(!n)break;arr=[...merged.values()].sort((a,b)=>dateObj(b.date)-dateObj(a.date));guard++;
   }
   draws=arr.filter(x=>dateObj(x.date)>=cutoff).sort((a,b)=>dateObj(b.date)-dateObj(a.date));
-  save();render();ensureTomorrowPrediction();$('syncStatus').textContent='Cập nhật lúc '+new Date().toLocaleTimeString('vi-VN')+' · '+draws.length+' kỳ';
+  save();render();ensureTomorrowPrediction();$('syncStatus').textContent='Cập nhật lúc '+formatVietnameseDateTime(new Date())+' · '+draws.length+' kỳ';
  }catch(e){$('syncStatus').textContent='Chưa cập nhật được: '+e.message+' · Thử lại sau';if(!draws.length)$('latestResult').textContent='Không kết nối được nguồn dữ liệu. Kiểm tra mạng hoặc thử lại.'}
  finally{b.disabled=false}
 }
@@ -1021,45 +1036,62 @@ function specialEnding(item,len){
  return digits&&digits.length>=len?digits.slice(-len).padStart(len,'0'):null;
 }
 function rankEnding(len){
- let counts=new Map();
- for(const d of draws){const n=specialEnding(d,len);if(n)counts.set(n,(counts.get(n)||0)+1)}
- return [...counts.entries()].map(([n,count])=>({n,count})).sort((a,b)=>b.count-a.count||a.n.localeCompare(b.n));
+ const counts=new Map(), recent30=new Map(), recent90=new Map(), weighted=new Map(), lastSeen=new Map();
+ draws.forEach((d,i)=>{
+  const n=specialEnding(d,len);if(!n)return;
+  counts.set(n,(counts.get(n)||0)+1);
+  if(i<30)recent30.set(n,(recent30.get(n)||0)+1);
+  if(i<90)recent90.set(n,(recent90.get(n)||0)+1);
+  weighted.set(n,(weighted.get(n)||0)+Math.pow(0.985,i));
+  if(!lastSeen.has(n))lastSeen.set(n,i);
+ });
+ const max=(m)=>Math.max(1,...m.values());
+ const all=new Set([...counts.keys()]);
+ return [...all].map(n=>{
+  const c=counts.get(n)||0,r30=recent30.get(n)||0,r90=recent90.get(n)||0,w=weighted.get(n)||0;
+  const gap=lastSeen.has(n)?lastSeen.get(n):draws.length;
+  // Điểm xếp hạng kết hợp tần suất dài hạn, xu hướng gần và độ mới; không coi số gan là xác suất.
+  const score=(c/max(counts))*30+(r90/max(recent90))*20+(r30/max(recent30))*20+(w/max(weighted))*25+(1-Math.min(gap,90)/90)*5;
+  return {n,count:c,recent30:r30,recent90:r90,gap,score};
+ }).sort((a,b)=>b.score-a.score||b.count-a.count||a.n.localeCompare(b.n));
 }
 function makePrediction(){
  if(!draws.length){$('predictionStatus').textContent='Chưa có dữ liệu lịch sử. Hãy cập nhật dữ liệu trước.';return}
  const key=todayKey(),store=readPredictions();
- if(store[key]&&store[key].groups?.four&&store[key].groups?.three&&store[key].groups?.de&&store[key].groups?.firstPrize&&String(store[key].groups.firstPrize).length===2){$('predictionStatus').textContent='Dự đoán ngày mai đã được lưu.';renderPrediction();return}
  const s=stats(), recentDraws=draws.slice(0,30);
- const ranked=Array.from({length:100},(_,i)=>{
-  const count=s.counts[i],gap=s.last[i]<0?draws.length:s.last[i];
-  let recent=0;for(const d of recentDraws)for(const n of normalize(d).nums)if(+n===i)recent++;
-  return {n:String(i).padStart(2,'0'),score:count*.55+recent*1.2+Math.min(gap,30)*.12,count,recent,gap};
- }).sort((a,b)=>b.score-a.score||a.n.localeCompare(b.n));
- const rand=seededRandom(stableHash(key+'|LOTUS'));
- function pickWeighted(pool){
-  if(!pool.length)return null;
-  const top=pool.slice(0,Math.min(20,pool.length));
-  const weights=top.map(x=>Math.max(.1,x.count+1));
-  const sum=weights.reduce((a,b)=>a+b,0);let r=rand()*sum,idx=0;
-  while(idx<weights.length-1&&r>=weights[idx]){r-=weights[idx];idx++}
-  return top[idx];
- }
+ const score2=Array.from({length:100},(_,i)=>{
+  const n=String(i).padStart(2,'0'),count=s.counts[i],gap=s.last[i]<0?draws.length:s.last[i];
+  let recent30=0,recent90=0,weighted=0;
+  draws.forEach((d,idx)=>{const hits=normalize(d).nums.filter(v=>v===n).length;if(idx<30)recent30+=hits;if(idx<90)recent90+=hits;weighted+=hits*Math.pow(0.985,idx)});
+  return {n,count,gap,recent30,recent90,weighted};
+ });
+ const max=(field)=>Math.max(1,...score2.map(x=>x[field]));
+ const ranked=score2.map(x=>({...x,score:
+  (x.count/max('count'))*30+(x.recent90/max('recent90'))*20+
+  (x.recent30/max('recent30'))*20+(x.weighted/max('weighted'))*25+
+  (1-Math.min(x.gap,90)/90)*5
+ })).sort((a,b)=>b.score-a.score||b.count-a.count||a.n.localeCompare(b.n));
  const e4=rankEnding(4),e3=rankEnding(3);
- const firstCounts=new Map();
- for(const d of draws){const n=normalize(d).first;if(n&&n.length>=5){const v=n.slice(-2).padStart(2,'0');firstCounts.set(v,(firstCounts.get(v)||0)+1)}}
- const firstRank=[...firstCounts.entries()].map(([n,count])=>({n,count})).sort((a,b)=>b.count-a.count||a.n.localeCompare(b.n));
- const first=pickWeighted(firstRank);
- const four=pickWeighted(e4),three=pickWeighted(e3);
- const dePool=ranked.slice(0,30).map(x=>({n:x.n,count:Math.max(0,x.score)}));
- const de=pickWeighted(dePool);
- // Four distinct two-digit candidates; xiên 1–4 are nested combinations from this shortlist.
- const xiens=[],pool=ranked.slice(0,35).map(x=>({...x}));
- while(xiens.length<4&&pool.length){
-  const x=pickWeighted(pool);if(!x)break;xiens.push(x.n);
-  const idx=pool.findIndex(y=>y.n===x.n);if(idx>=0)pool.splice(idx,1);
- }
+ const firstCounts=new Map(),firstRecent=new Map(),firstWeighted=new Map(),firstLast=new Map();
+ draws.forEach((d,i)=>{
+  const raw=normalize(d).first;if(!raw||raw.length<2)return;
+  const n=raw.slice(-2).padStart(2,'0');
+  firstCounts.set(n,(firstCounts.get(n)||0)+1);
+  if(i<30)firstRecent.set(n,(firstRecent.get(n)||0)+1);
+  firstWeighted.set(n,(firstWeighted.get(n)||0)+Math.pow(0.985,i));
+  if(!firstLast.has(n))firstLast.set(n,i);
+ });
+ const maxMap=m=>Math.max(1,...m.values());
+ const firstRank=[...firstCounts.keys()].map(n=>{
+  const count=firstCounts.get(n)||0,r30=firstRecent.get(n)||0,w=firstWeighted.get(n)||0,gap=firstLast.get(n)??draws.length;
+  return {n,count,recent30:r30,gap,score:(count/maxMap(firstCounts))*40+(r30/maxMap(firstRecent))*25+(w/maxMap(firstWeighted))*30+(1-Math.min(gap,90)/90)*5};
+ }).sort((a,b)=>b.score-a.score||b.count-a.count||a.n.localeCompare(b.n));
+ const four=e4[0],three=e3[0],de=ranked[0];
+ const first=firstRank[0];
+ const xiens=ranked.slice(0,4).map(x=>x.n);
  const groups={four:four?.n||null,three:three?.n||null,de:de?.n||null,firstPrize:first?.n||null,xiens};
- store[key]={date:key,groups,createdAt:new Date().toISOString(),basis:'Tần suất đuôi giải đặc biệt 365 ngày; tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện'};
+ store[key]={date:key,groups,createdAt:new Date().toISOString(),algorithmVersion:2,
+  basis:'Xếp hạng định lượng từ dữ liệu thực tế: tần suất toàn kỳ, 30/90 kỳ gần nhất, trọng số giảm dần theo độ cũ và khoảng cách xuất hiện. Nhất to dùng riêng dữ liệu giải nhất.'};
  savePredictions(store);renderPrediction();
 }
 function renderPrediction(){
@@ -1071,8 +1103,8 @@ function renderPrediction(){
   const g=p.groups||{four:null,three:null,de:null,xiens:p.numbers||[]};
   $('pred4').textContent=g.four||'—';$('pred3').textContent=g.three||'—';$('predDe').textContent=g.de||'—';$('predFirst').textContent=g.firstPrize||'—';
   for(let i=1;i<=4;i++)$('predX'+i).textContent=(g.xiens||[]).slice(0,i).join(' · ')||'—';
-  $('predictionStatus').textContent='Đã lưu và khóa lúc '+new Date(p.createdAt).toLocaleTimeString('vi-VN');
-  $('predictionBasis').innerHTML=`<div>Phạm vi: ${draws.length} kỳ lịch sử đang có</div><div>4 càng/3 càng: tần suất đuôi giải đặc biệt</div><div>Đề/xiên: tần suất 2 số, 30 kỳ gần nhất và khoảng cách xuất hiện</div><div>Nhất to: xếp hạng tần suất 5 số cuối giải nhất trong dữ liệu lịch sử</div><div class="muted" style="margin-top:8px">Điểm xếp hạng không phải xác suất trúng.</div>`;
+  $('predictionStatus').textContent='Đã lưu và khóa lúc '+formatVietnameseDateTime(p.createdAt);
+  $('predictionBasis').innerHTML=`<div>Phạm vi: ${draws.length} kỳ lịch sử thực tế đang có</div><div>4 càng/3 càng: thống kê đuôi giải đặc biệt theo toàn kỳ, 30/90 kỳ gần nhất, trọng số độ mới và khoảng cách xuất hiện</div><div>Đề/xiên: thống kê đuôi 2 số của toàn bộ giải, cùng các cửa sổ 30/90 kỳ và trọng số độ mới</div><div>Nhất to: thống kê riêng 2 số cuối giải nhất, không trộn với dữ liệu giải khác</div><div class="muted" style="margin-top:8px">Số được chọn theo điểm xếp hạng từ dữ liệu lịch sử; điểm không phải xác suất trúng và không bảo đảm kết quả tương lai.</div>`;
   const targetDraw=draws.find(d=>dateObj(d.date).toDateString()===new Date(key+'T00:00:00').toDateString());
   if(targetDraw){const sp=normalize(targetDraw).special;const a4=sp.slice(-4),a3=sp.slice(-3),a2=sp.slice(-2),firstResult=normalize(targetDraw).first.slice(-2);$('predictionCheck').innerHTML=`<b>Kết quả ĐB: ${sp||'—'} · Giải nhất: ${firstResult||'—'}</b><div class="muted">4 càng: ${g.four||'—'} ${g.four===a4?'✓ TRÚNG':'✕ Chưa trúng'} · 3 càng: ${g.three||'—'} ${g.three===a3?'✓ TRÚNG':'✕ Chưa trúng'} · Đề: ${g.de||'—'} ${g.de===a2?'✓ TRÚNG':'✕ Chưa trúng'} · Nhất to: ${g.firstPrize||'—'} ${g.firstPrize===firstResult?'✓ TRÚNG':'✕ Chưa trúng'}</div>`;}
   else $('predictionCheck').textContent='Chưa có kết quả ngày mục tiêu trong dữ liệu đã tải.';
@@ -1082,23 +1114,23 @@ function renderPrediction(){
   const draw=draws.find(x=>dateObj(x.date).toDateString()===new Date(d+'T00:00:00').toDateString());
   if(!draw)return {d,g,draw:null};
   const sp=normalize(draw).special;
-  const a4=sp.length>=4?sp.slice(-4):'—',a3=sp.length>=3?sp.slice(-3):'—',a2=sp.length>=2?sp.slice(-2):'—';
-  return {d,g,draw,sp,a4,a3,a2,h4:!!g.four&&g.four===a4,h3:!!g.three&&g.three===a3,hd:!!g.de&&g.de===a2};
+  const a4=sp.length>=4?sp.slice(-4):'—',a3=sp.length>=3?sp.slice(-3):'—',a2=sp.length>=2?sp.slice(-2):'—',first2=normalize(draw).first.slice(-2)||'—';
+  return {d,g,draw,sp,a4,a3,a2,first2,h4:!!g.four&&g.four===a4,h3:!!g.three&&g.three===a3,hd:!!g.de&&g.de===a2,hfirst:!!g.firstPrize&&g.firstPrize===first2};
  });
  const evaluated=records.filter(x=>x.draw);
  const statsRate=(field)=>{const hits=evaluated.filter(x=>x[field]).length;return {hits,total:evaluated.length,pct:evaluated.length?(hits/evaluated.length*100):null}};
- const r4=statsRate('h4'),r3=statsRate('h3'),rd=statsRate('hd');
- const allHits=r4.hits+r3.hits+rd.hits,allTotal=evaluated.length*3,allPct=allTotal?allHits/allTotal*100:null;
+ const r4=statsRate('h4'),r3=statsRate('h3'),rd=statsRate('hd'),rf=statsRate('hfirst');
+ const allHits=r4.hits+r3.hits+rd.hits+rf.hits,allTotal=evaluated.length*4,allPct=allTotal?allHits/allTotal*100:null;
  const putRate=(id,r)=>{$(id).textContent=r.pct===null?'—':r.pct.toFixed(1)+'%';$(id+'Detail').textContent=`${r.hits}/${r.total} kỳ trúng`;};
- putRate('rate4',r4);putRate('rate3',r3);putRate('rateDe',rd);
+ putRate('rate4',r4);putRate('rate3',r3);putRate('rateDe',rd);if($('rateFirst'))putRate('rateFirst',rf);
  $('rateAll').textContent=allPct===null?'—':allPct.toFixed(1)+'%';$('rateAllDetail').textContent=`${allHits}/${allTotal} lượt dự đoán trúng · ${evaluated.length} ngày đã đối chiếu`;
  const rows=records.map(x=>{
   const target=x.d.split('-').reverse().join('/'),g=x.g;
-  if(!x.draw)return `<tr><td>${target}</td><td>${g.four||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.three||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.de||'—'}</td><td>—</td><td>Chờ KQ</td><td>${(g.xiens||[]).join(' · ')||'—'}</td><td>Chờ kết quả</td></tr>`;
+  if(!x.draw)return `<tr><td>${target}</td><td>${g.four||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.three||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.de||'—'}</td><td>—</td><td>Chờ KQ</td><td>${g.firstPrize||'—'}</td><td>—</td><td>Chờ KQ</td><td>${(g.xiens||[]).join(' · ')||'—'}</td><td>Chờ kết quả</td></tr>`;
   const mark=v=>v?'<b style="color:#25835d">TRÚNG</b>':'<b style="color:#bd665b">KHÔNG TRÚNG</b>';
-  return `<tr><td>${target}</td><td><b>${g.four||'—'}</b></td><td>${x.a4}</td><td>${mark(x.h4)}</td><td><b>${g.three||'—'}</b></td><td>${x.a3}</td><td>${mark(x.h3)}</td><td><b>${g.de||'—'}</b></td><td>${x.a2}</td><td>${mark(x.hd)}</td><td>${(g.xiens||[]).join(' · ')||'—'}</td><td>Đã đối chiếu</td></tr>`;
+  return `<tr><td>${target}</td><td><b>${g.four||'—'}</b></td><td>${x.a4}</td><td>${mark(x.h4)}</td><td><b>${g.three||'—'}</b></td><td>${x.a3}</td><td>${mark(x.h3)}</td><td><b>${g.de||'—'}</b></td><td>${x.a2}</td><td>${mark(x.hd)}</td><td><b>${g.firstPrize||'—'}</b></td><td>${x.first2}</td><td>${mark(x.hfirst)}</td><td>${(g.xiens||[]).join(' · ')||'—'}</td><td>Đã đối chiếu</td></tr>`;
  }).join('');
- $('predictionHistory').innerHTML=rows||'<tr><td colspan="12" class="empty">Chưa có lịch sử dự đoán</td></tr>';
+ $('predictionHistory').innerHTML=rows||'<tr><td colspan="15" class="empty">Chưa có lịch sử dự đoán</td></tr>';
 }
 
 
@@ -1230,26 +1262,40 @@ function initLunarCalendar(){
 
 function runNumberFilter(){
  const input=$('filterNumbers'),body=$('filterResults'),summary=$('filterSummary');
+ const type=$('filterType')?.value||'lo';
+ const width=type==='3cang'?3:(type==='4cang'?4:2);
+ const typeName=type==='nhatto'?'Nhất to':type==='3cang'?'3 càng':type==='4cang'?'4 càng':type==='de'?'Đề':'Lô';
  const raw=(input.value||'').trim();
  if(!raw){summary.textContent='Vui lòng nhập ít nhất một số.';body.innerHTML='<tr><td colspan="5" class="empty">Chưa có số để lọc.</td></tr>';return}
- const tokens=raw.split(/[,,;\\s]+/).filter(Boolean),numbers=[],invalid=[];
- for(const token of tokens){const n=token.replace(/\\D/g,'');if(n.length===2){if(!numbers.includes(n))numbers.push(n)}else invalid.push(token)}
- if(!numbers.length){summary.textContent='Không có số hợp lệ. Hãy nhập số từ 00 đến 99.';body.innerHTML='<tr><td colspan="5" class="empty">Ví dụ nhập: 64, 17, 97, 46.</td></tr>';return}
+ const tokens=raw.split(/[.,;\s]+/).filter(Boolean),numbers=[],invalid=[];
+ for(const token of tokens){
+  const digits=token.replace(/\D/g,'');
+  if(digits.length===width){if(!numbers.includes(digits))numbers.push(digits)}
+  else if(digits.length>width && digits.length%width===0){
+   for(let i=0;i<digits.length;i+=width){const n=digits.slice(i,i+width);if(!numbers.includes(n))numbers.push(n)}
+  }else invalid.push(token)
+ }
+ if(!numbers.length){summary.textContent='Không có số hợp lệ. Loại '+typeName+' yêu cầu mỗi số có '+width+' chữ số.';body.innerHTML=`<tr><td colspan="5" class="empty">Hãy nhập số có ${width} chữ số, ngăn cách bằng dấu chấm, dấu phẩy hoặc viết liền thành nhóm.</td></tr>`;return}
  if(!draws.length){summary.textContent='Chưa có dữ liệu kết quả thực tế. Hãy nhấn “Cập nhật dữ liệu” trước.';body.innerHTML='<tr><td colspan="5" class="empty">Chưa có dữ liệu để đối chiếu.</td></tr>';return}
  const dated=draws.map(d=>({d,date:dateObj(d.date)})).filter(x=>!isNaN(x.date.getTime())).sort((a,b)=>b.date-a.date);
  if(!dated.length){summary.textContent='Dữ liệu chưa có ngày hợp lệ.';return}
  const latest=dated[0].date;latest.setHours(0,0,0,0);
  const rows=numbers.map((n,i)=>{
   let found=null;
-  for(const item of dated){if(normalize(item.d).nums.includes(n)){found=item.date;break}}
+  for(const item of dated){
+   const data=normalize(item.d);
+   let pool=type==='lo'?data.nums:type==='de'?(data.special?[data.special.slice(-2).padStart(2,'0')]:[]):type==='nhatto'?(data.first?[data.first.slice(-2).padStart(2,'0')]:[]):type==='3cang'?(data.special.length>=3?[data.special.slice(-3).padStart(3,'0')]:[]):(data.special.length>=4?[data.special.slice(-4).padStart(4,'0')]:[]);
+   if(pool.includes(n)){found=item.date;break}
+  }
   if(!found)return `<tr><td class="num">${i+1}</td><td class="num"><b>${n}</b></td><td>Chưa xuất hiện trong dữ liệu</td><td class="num">—</td><td>Không tìm thấy lần xuất hiện</td></tr>`;
   const last=new Date(found);last.setHours(0,0,0,0);
   const days=Math.max(0,Math.floor((latest-last)/86400000));
   return `<tr><td class="num">${i+1}</td><td class="num"><b>${n}</b></td><td>${fmtDate(found)}</td><td class="num"><b>${days}</b></td><td>${days===0?'Có xuất hiện ở kỳ mới nhất':'Chưa xuất hiện '+days+' ngày'}</td></tr>`;
  });
  body.innerHTML=rows.join('');
- summary.textContent=`Đã lọc ${numbers.length} số · Dữ liệu đến ngày ${fmtDate(latest)} · ${dated.length} kỳ kết quả thực tế${invalid.length?' · Bỏ qua mục không hợp lệ: '+invalid.join(', '):''}`;
+ summary.textContent=`Đã lọc ${numbers.length} số ${typeName} · Dữ liệu đến ngày ${fmtDate(latest)} · ${dated.length} kỳ kết quả thực tế${invalid.length?' · Bỏ qua mục không hợp lệ: '+invalid.join(', '):''}`;
 }
+document.addEventListener('DOMContentLoaded',()=>{const t=$('filterType'),i=$('filterNumbers');if(t&&i){const set=()=>{const w=t.value==='3cang'?3:t.value==='4cang'?4:2;i.placeholder=w===2?'Ví dụ: 11.22,33 hoặc 112233':w===3?'Ví dụ: 123.456 hoặc 123456':'Ví dụ: 1234.5678 hoặc 12345678'};t.addEventListener('change',set);set();}});
 function clearNumberFilter(){
  $('filterNumbers').value='';
  $('filterSummary').textContent='Chưa có số được lọc.';
@@ -1259,7 +1305,7 @@ $('filterNumbers').addEventListener('keydown',e=>{if(e.key==='Enter')runNumberFi
 
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main section[id^=tab-]').forEach(x=>x.classList.toggle('hide',x.id!=='tab-'+b.dataset.tab))}));
 initLunarCalendar();load();render();if(!draws.length)syncData();else{$('syncStatus').textContent='Đã tải dữ liệu đã lưu · '+draws.length+' kỳ';ensureTomorrowPrediction()}setInterval(syncData,15*60*1000);
-function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(!p?.groups?.four||!p?.groups?.three||!p?.groups?.de||(!p?.groups?.firstPrize||String(p.groups.firstPrize).length!==2))makePrediction()}
+function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(p?.algorithmVersion!==2||!p?.groups?.four||!p?.groups?.three||!p?.groups?.de||(!p?.groups?.firstPrize||String(p.groups.firstPrize).length!==2))makePrediction()}
 
 </script><script>
 (function(){
