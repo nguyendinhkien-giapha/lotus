@@ -1030,6 +1030,32 @@ function readPredictions(){try{return JSON.parse(localStorage.getItem(PRED_STORE
 function savePredictions(p){localStorage.setItem(PRED_STORE,JSON.stringify(p))}
 function stableHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function seededRandom(seed){let x=seed||1;return ()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return (x>>>0)/4294967296}}
+function previousDateKey(key){const d=new Date(key+'T00:00:00');d.setDate(d.getDate()-1);return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+// Chọn có trọng số trong nhóm ứng viên điểm cao, dùng ngày mục tiêu làm seed.
+// Nếu trùng đúng nhóm của ngày liền trước thì chuyển sang ứng viên kế tiếp để tránh lặp máy móc.
+function chooseDaily(ranked,key,group,previousValue,limit=12){
+ const pool=ranked.slice(0,Math.min(limit,ranked.length));if(!pool.length)return null;
+ const rand=seededRandom(stableHash(key+'|LOTUS-V3|'+group));
+ const weights=pool.map(x=>Math.max(0.0001,Math.pow(Math.max(0.01,x.score||0),2)));
+ const total=weights.reduce((a,b)=>a+b,0);let r=rand()*total,index=0;
+ for(;index<weights.length-1;index++){r-=weights[index];if(r<=0)break;}
+ if(pool[index].n===previousValue&&pool.length>1)index=(index+1+Math.floor(rand()*(pool.length-1)))%pool.length;
+ return pool[index];
+}
+function chooseDailySet(ranked,key,previousValues,limit=14,count=4){
+ const pool=ranked.slice(0,Math.min(limit,ranked.length));if(!pool.length)return [];
+ const rand=seededRandom(stableHash(key+'|LOTUS-V3|xiens'));
+ const picked=[];
+ while(picked.length<count&&picked.length<pool.length){
+  const remaining=pool.filter(x=>!picked.some(y=>y.n===x.n));
+  const weights=remaining.map(x=>Math.max(0.0001,Math.pow(Math.max(0.01,x.score||0),2)));
+  const total=weights.reduce((a,b)=>a+b,0);let r=rand()*total,index=0;
+  for(;index<weights.length-1;index++){r-=weights[index];if(r<=0)break;}
+  picked.push(remaining[index]);
+ }
+ if(picked.length===previousValues.length&&picked.every((x,i)=>x.n===previousValues[i])&&picked.length>1){const first=picked.shift();picked.push(first);}
+ return picked.map(x=>x.n);
+}
 function specialEnding(item,len){
  // Dùng cùng bộ chuẩn hóa với bảng kết quả để tương thích DB dạng mảng, chuỗi hoặc object.
  const digits=normalize(item).special;
@@ -1057,7 +1083,7 @@ function rankEnding(len){
 }
 function makePrediction(){
  if(!draws.length){$('predictionStatus').textContent='Chưa có dữ liệu lịch sử. Hãy cập nhật dữ liệu trước.';return}
- const key=todayKey(),store=readPredictions();
+ const key=todayKey(),store=readPredictions(),previous=store[previousDateKey(key)]?.groups||{};
  const s=stats(), recentDraws=draws.slice(0,30);
  const score2=Array.from({length:100},(_,i)=>{
   const n=String(i).padStart(2,'0'),count=s.counts[i],gap=s.last[i]<0?draws.length:s.last[i];
@@ -1086,12 +1112,15 @@ function makePrediction(){
   const count=firstCounts.get(n)||0,r30=firstRecent.get(n)||0,w=firstWeighted.get(n)||0,gap=firstLast.get(n)??draws.length;
   return {n,count,recent30:r30,gap,score:(count/maxMap(firstCounts))*40+(r30/maxMap(firstRecent))*25+(w/maxMap(firstWeighted))*30+(1-Math.min(gap,90)/90)*5};
  }).sort((a,b)=>b.score-a.score||b.count-a.count||a.n.localeCompare(b.n));
- const four=e4[0],three=e3[0],de=ranked[0];
- const first=firstRank[0];
- const xiens=ranked.slice(0,4).map(x=>x.n);
+ // Chọn theo điểm lịch sử nhưng có seed riêng theo ngày và từng nhóm; không dùng chung một bộ số cố định.
+ const four=chooseDaily(e4,key,'4-cang',previous.four,12);
+ const three=chooseDaily(e3,key,'3-cang',previous.three,12);
+ const de=chooseDaily(ranked,key,'de',previous.de,16);
+ const first=chooseDaily(firstRank,key,'nhat-to',previous.firstPrize,16);
+ const xiens=chooseDailySet(ranked,key,previous.xiens||[],16,4);
  const groups={four:four?.n||null,three:three?.n||null,de:de?.n||null,firstPrize:first?.n||null,xiens};
- store[key]={date:key,groups,createdAt:new Date().toISOString(),algorithmVersion:2,
-  basis:'Xếp hạng định lượng từ dữ liệu thực tế: tần suất toàn kỳ, 30/90 kỳ gần nhất, trọng số giảm dần theo độ cũ và khoảng cách xuất hiện. Nhất to dùng riêng dữ liệu giải nhất.'};
+ store[key]={date:key,groups,createdAt:new Date().toISOString(),algorithmVersion:3,
+  basis:'Xếp hạng từ dữ liệu lịch sử (tần suất toàn kỳ, 30/90 kỳ gần nhất, trọng số độ mới và khoảng cách xuất hiện), sau đó chọn có trọng số theo seed riêng của ngày và từng nhóm. Nhất to dùng riêng dữ liệu giải nhất. Không phải xác suất trúng.'};
  savePredictions(store);renderPrediction();
 }
 function renderPrediction(){
@@ -1104,7 +1133,7 @@ function renderPrediction(){
   $('pred4').textContent=g.four||'—';$('pred3').textContent=g.three||'—';$('predDe').textContent=g.de||'—';$('predFirst').textContent=g.firstPrize||'—';
   for(let i=1;i<=4;i++)$('predX'+i).textContent=(g.xiens||[]).slice(0,i).join(' · ')||'—';
   $('predictionStatus').textContent='Đã lưu và khóa lúc '+formatVietnameseDateTime(p.createdAt);
-  $('predictionBasis').innerHTML=`<div>Phạm vi: ${draws.length} kỳ lịch sử thực tế đang có</div><div>4 càng/3 càng: thống kê đuôi giải đặc biệt theo toàn kỳ, 30/90 kỳ gần nhất, trọng số độ mới và khoảng cách xuất hiện</div><div>Đề/xiên: thống kê đuôi 2 số của toàn bộ giải, cùng các cửa sổ 30/90 kỳ và trọng số độ mới</div><div>Nhất to: thống kê riêng 2 số cuối giải nhất, không trộn với dữ liệu giải khác</div><div class="muted" style="margin-top:8px">Số được chọn theo điểm xếp hạng từ dữ liệu lịch sử; điểm không phải xác suất trúng và không bảo đảm kết quả tương lai.</div>`;
+  $('predictionBasis').innerHTML=`<div>Thuật toán V3 · seed riêng theo ngày dự đoán · phạm vi: ${draws.length} kỳ lịch sử thực tế đang có</div><div>4 càng/3 càng: thống kê đuôi giải đặc biệt theo toàn kỳ, 30/90 kỳ gần nhất, trọng số độ mới và khoảng cách xuất hiện</div><div>Đề/xiên: thống kê đuôi 2 số của toàn bộ giải, cùng các cửa sổ 30/90 kỳ và trọng số độ mới</div><div>Nhất to: thống kê riêng 2 số cuối giải nhất, không trộn với dữ liệu giải khác</div><div class="muted" style="margin-top:8px">Số được chọn theo điểm xếp hạng từ dữ liệu lịch sử; điểm không phải xác suất trúng và không bảo đảm kết quả tương lai.</div>`;
   const targetDraw=draws.find(d=>dateObj(d.date).toDateString()===new Date(key+'T00:00:00').toDateString());
   if(targetDraw){const sp=normalize(targetDraw).special;const a4=sp.slice(-4),a3=sp.slice(-3),a2=sp.slice(-2),firstResult=normalize(targetDraw).first.slice(-2);$('predictionCheck').innerHTML=`<b>Kết quả ĐB: ${sp||'—'} · Giải nhất: ${firstResult||'—'}</b><div class="muted">4 càng: ${g.four||'—'} ${g.four===a4?'✓ TRÚNG':'✕ Chưa trúng'} · 3 càng: ${g.three||'—'} ${g.three===a3?'✓ TRÚNG':'✕ Chưa trúng'} · Đề: ${g.de||'—'} ${g.de===a2?'✓ TRÚNG':'✕ Chưa trúng'} · Nhất to: ${g.firstPrize||'—'} ${g.firstPrize===firstResult?'✓ TRÚNG':'✕ Chưa trúng'}</div>`;}
   else $('predictionCheck').textContent='Chưa có kết quả ngày mục tiêu trong dữ liệu đã tải.';
@@ -1305,7 +1334,7 @@ $('filterNumbers').addEventListener('keydown',e=>{if(e.key==='Enter')runNumberFi
 
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main section[id^=tab-]').forEach(x=>x.classList.toggle('hide',x.id!=='tab-'+b.dataset.tab))}));
 initLunarCalendar();load();render();if(!draws.length)syncData();else{$('syncStatus').textContent='Đã tải dữ liệu đã lưu · '+draws.length+' kỳ';ensureTomorrowPrediction()}setInterval(syncData,15*60*1000);
-function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(p?.algorithmVersion!==2||!p?.groups?.four||!p?.groups?.three||!p?.groups?.de||(!p?.groups?.firstPrize||String(p.groups.firstPrize).length!==2))makePrediction()}
+function ensureTomorrowPrediction(){if(!draws.length)return;const p=readPredictions()[todayKey()];if(p?.algorithmVersion!==3||!p?.groups?.four||!p?.groups?.three||!p?.groups?.de||(!p?.groups?.firstPrize||String(p.groups.firstPrize).length!==2))makePrediction()}
 
 </script><script>
 (function(){
